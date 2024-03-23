@@ -1,0 +1,11 @@
+class: User
+private field:
+    String name
+    int password
+    String email
+    String major
+
+class: Profile extends User
+private field:
+    ArrayList<User> friendsList
+    ArrayList<User> blockedList
