@@ -4,7 +4,8 @@ public class Profile extends User {
     public ArrayList<User> friendsList;
     public ArrayList<User> blockedList;
     public ArrayList<Chat> chatList;
-    boolean restrictMessage;
+    boolean restrictMessage; //if true, allows to send messages to all users
+                            // if false, restricts to only friends
 
     public Profile(String name, String password, String email, String major, ArrayList<User> friendsList,
                    ArrayList<User> blockedList, ArrayList<Chat> chatList, boolean restrictMessage)
@@ -53,6 +54,10 @@ public class Profile extends User {
                 chatList.remove(c);
             }
         }
+    }
+
+    public void changeRestriction() {
+        restrictMessage = !restrictMessage;
     }
 
 }
