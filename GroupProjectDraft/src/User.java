@@ -1,20 +1,33 @@
-import java.util.ArrayList;
-
-public class User implements UserInterface{
+public class User {
     private String name;
-    private int password;
+    private String password;
     private String email;
     private String major;
 
-    public User (String name, int password, String email, String major) {
+    public User(String name, String password, String email, String major) throws InvalidInputException {
+        //Checks for no empty contents
+        if (name.isEmpty() || password.isEmpty() || email.isEmpty() || major.isEmpty()) {
+            throw new InvalidInputException("Invalid Input!");
+        }
+        //check for valid email
+        if(email.contains("@") && !email.contains(" ")) {
+            String[] emailElements = email.split("@");
+            if (emailElements.length == 2 && !emailElements[0].isEmpty() && emailElements[1].equals("purdue.edu")) {
+                this.email = email;
+            } else {
+                throw new InvalidInputException("Invalid Input!");
+            }
+        } else {
+            throw new InvalidInputException("Invalid Input!");
+        }
         this.name = name;
         this.password = password;
-        this.email = email;
         this.major = major;
     }
-    public User () {
+
+    public User() {
         name = "";
-        password = 0;
+        password = "";
         email = "";
         major = "";
     }
@@ -22,24 +35,31 @@ public class User implements UserInterface{
     public String getName() {
         return name;
     }
-    public int getPassword() {
+
+    public String getPassword() {
         return password;
     }
+
     public String getEmail() {
         return email;
     }
+
     public String getMajor() {
         return major;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
-    public void setPassword(int password) {
+
+    public void setPassword(String password) {
         this.password = password;
     }
+
     public void setMajor(String major) {
         this.major = major;
     }
