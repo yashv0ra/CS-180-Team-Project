@@ -1,6 +1,6 @@
 public interface UserInterface {
     public String getName();
-    public int getPassword();
+    public String getPassword();
     public String getEmail();
     public String getMajor();
     public void setName(String name);
