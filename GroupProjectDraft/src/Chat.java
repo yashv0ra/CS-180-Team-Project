@@ -1,58 +1,48 @@
 import java.util.ArrayList;
 
-public class Profile extends User {
-    public ArrayList<User> friendsList;
-    public ArrayList<User> blockedList;
-    public ArrayList<Chat> chatList;
-    boolean restrictMessage;
+public class Chat {
+    private User userA;
+    private User userB;
+    private ArrayList<String> messageList;
 
-    public Profile(String name, String password, String email, String major, ArrayList<User> friendsList,
-                   ArrayList<User> blockedList, ArrayList<Chat> chatList, boolean restrictMessage)
-            throws InvalidInputException {
-        super(name, password, email, major);
-        ArrayList<User> temp = friendsList;
-        temp.retainAll(blockedList); //creates array list with common elements without altering arrays
-        if (temp.equals(new ArrayList<User>())) {
-            this.friendsList = friendsList;
-            this.blockedList = blockedList;
-            this.chatList = chatList;
-            this.restrictMessage = restrictMessage;
-        } else {
-            throw new InvalidInputException("Invalid Input!");
+    public Chat() {
+        userA = new User();
+        userB = new User();
+        messageList = null;
+    }
+
+    public User getUserA() {
+        return userA;
+    }
+
+    public void setUserA(User userA) {
+        this.userA = userA;
+    }
+
+    public User getUserB() {
+        return userB;
+    }
+
+    public void setUserB(User userB) {
+        this.userB = userB;
+    }
+
+    public ArrayList<String> getMessageList() {
+        return messageList;
+    }
+
+    public void setMessageList(ArrayList<String> messageList) {
+        this.messageList = messageList;
+    }
+
+    public void addMessage(String message, User user) {
+        if (message != null && (user.equals(userA) || user.equals(userB))) {
+            messageList.add(user.getEmail() + ":" + message);
         }
     }
 
-    public void addFriend(User user) {
-        if (!friendsList.contains(user) && !blockedList.contains(user)) {
-            friendsList.add(user);
-        }
+    public void deleteMessage(String message) {
+        //currently doesn't account for messages that are the same
+        messageList.remove(message);
     }
-
-    public void removeFriend(User user) {
-        friendsList.remove(user);
-        blockedList.remove(user);
-
-    }
-
-    public void blockUser(User user) {
-        if (!blockedList.contains(user)) {
-            blockedList.add(user);
-        }
-        friendsList.remove(user);
-    }
-
-    public void unblockUser(User user) {
-        blockedList.remove(user);
-    }
-
-    public void checkChats() {
-        //checks if chats are shared between this user and other users
-        for (Chat c : chatList) {
-            if (!((super.equals(c.getUserA()) || super.equals(c.getUserB()))
-            && !c.getUserA().equals(c.getUserB()))) {
-                chatList.remove(c);
-            }
-        }
-    }
-
 }
