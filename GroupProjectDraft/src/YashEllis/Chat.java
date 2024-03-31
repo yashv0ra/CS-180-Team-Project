@@ -46,6 +46,39 @@ public class Chat {
         whoSentTheMessage.get(cnt);
     }
 
+    public boolean isRestricted(Profile A, Profile B) {
+        boolean friendCheck1 = false;
+        boolean friendCheck2 = false;
+        boolean restrictCheck1 = false;
+        boolean restrictCheck2 = false;
+
+        for (int i = 0; i < A.friendsList.size(); i++) {
+            if (A.friendsList.get(i).compareTo(B)) {
+                friendCheck1 = true;
+            }
+        }
+        if (A.isRestrictMessage() && !friendCheck1) {
+            // if the user restricts messages from people they aren't friends with
+            // and the other user is not your friend, then restrict
+            restrictCheck1 = true;
+        }
+        for (int i = 0; i < B.friendsList.size(); i++) {
+            if (B.friendsList.get(i).compareTo(A)) {
+                friendCheck2 = true;
+            }
+        }
+        if (B.isRestrictMessage() && !friendCheck2) {
+            // if the user restricts messages from people they aren't friends with
+            // and the other user is not your friend, then restrict
+            restrictCheck2 = true;
+        }
+        if (restrictCheck1 && restrictCheck2) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static void main(String[] args) throws InvalidInputException {
         User u1 = new User("personA", "1234", "personA@purdue.edu", "eco");
         User u2 = new User("personB", "1234", "personB@purdue.edu", "eco");
