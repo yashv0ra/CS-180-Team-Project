@@ -60,4 +60,35 @@ public class Profile extends User {
         restrictMessage = !restrictMessage;
     }
 
+    public ArrayList<User> getFriendsList() {
+        return friendsList;
+    }
+
+    public ArrayList<User> getBlockedList() {
+        return blockedList;
+    }
+
+    public ArrayList<Chat> getChatList() {
+        return chatList;
+    }
+
+    public boolean isRestrictMessage() {
+        return restrictMessage;
+    }
+
+    public void setFriendsList(ArrayList<User> friendsList) {
+        this.friendsList = friendsList;
+    }
+
+    public void setBlockedList(ArrayList<User> blockedList) {
+        this.blockedList = blockedList;
+    }
+
+    public void setChatList(ArrayList<Chat> chatList) {
+        this.chatList = chatList;
+    }
+
+    public void setRestrictMessage(boolean restrictMessage) {
+        this.restrictMessage = restrictMessage;
+    }
 }
