@@ -1,5 +1,6 @@
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class User {
     private String name;
@@ -30,9 +31,21 @@ public class User {
         this.name = name;
         this.password = password;
         this.major = major;
-        this.friendsList = new ArrayList<>(1);
-        this.blockedList = new ArrayList<>(1);
-        this.chatList = new ArrayList<>(1);
+        if (friendsList == null) {
+            this.friendsList = new ArrayList<>(1);
+        } else {
+            this.friendsList = friendsList;
+        }
+        if (blockedList == null) {
+            this.blockedList = new ArrayList<>(1);
+        } else {
+            this.blockedList = blockedList;
+        }
+        if (chatList == null) {
+            this.chatList = new ArrayList<>(1);
+        } else {
+            this.chatList = chatList;
+        }
         this.restrictMessage = restrictMessage;
     }
 
@@ -81,6 +94,44 @@ public class User {
 
     public void changeRestriction() {
         restrictMessage = !restrictMessage;
+    }
+    public boolean canMessage(User A) {
+        boolean friendCheck1 = false;
+        boolean friendCheck2 = false;
+        for (int i = 0; i < this.friendsList.size(); i++) {
+            if (this.friendsList.get(i).compareTo(A)) {
+                friendCheck1 = true;
+                break;
+            }
+        }
+        for (int i = 0; i < A.friendsList.size(); i++) {
+            if (A.friendsList.get(i).compareTo(this)) {
+                friendCheck2 = true;
+                break;
+            }
+        }
+        if (friendCheck2 && friendCheck1) {
+            return true;
+        } if (A.isRestrictMessage() && !friendCheck2) {
+            // if the user restricts messages from people they aren't friends with
+            // and the other user is not your friend, then restrict
+            return false;
+        } else {
+            return true;
+        }
+    }
+    public boolean isBlocked(User A) {
+        for (int i = 0; i < this.blockedList.size(); i++) {
+            if (this.blockedList.get(i).compareTo(A)) {
+                return true;
+            }
+        }
+        for (int i = 0; i < A.blockedList.size(); i++) {
+            if (A.friendsList.get(i).compareTo(this)) {
+                return true;
+            }
+        }
+        return false;
     }
     public ArrayList<User> getFriendsList() {
         return friendsList;
@@ -147,6 +198,5 @@ public class User {
     }
     public boolean compareTo(User user) {
         return this.email.equals(user.email);
-
     }
 }
