@@ -101,12 +101,13 @@ public class Database {
     }
 
     //should this method the same or similar to the toString method?
-    public String toString(int index) {
-        String result = "name: " + listOfUsers.get(index).getName()
-                + "\nEmail: " + listOfUsers.get(index).getEmail()
-                + "\nMajor: " + listOfUsers.get(index).getMajor();
-        return result;
-    }
+//    public String toString(String email) {
+//        usersEmailSearch(email);
+//        String result = "name: " + listOfUsers.get(index).getName()
+//                + "\nEmail: " + listOfUsers.get(index).getEmail()
+//                + "\nMajor: " + listOfUsers.get(index).getMajor();
+//        return result;
+//    }
 
     //get the user index
 //    public int userView(User user) {
@@ -117,18 +118,18 @@ public class Database {
 
 
 //For testing this class
-//    public static void main(String[] args) throws InvalidInputException {
-//        User u1 = new User("personA", "1234", "personA@purdue.edu", "IE",
-//                new ArrayList<>(),null,null,true);
-//        User u2 = new User("personB", "1234", "personB@purdue.edu", "ECE",
-//                new ArrayList<User>() {{add(u1);}},null,null,true);
-//        User u3 = new User("personC", "1234", "personC@purdue.edu", "CS",
-//                new ArrayList<User>() {{add(u1);add(u2);}},null,null,true);
-//        User u4 = new User("personD", "2222", "personD@purdue.edu", "ME",
-//                null,null,null,true);
-//        Chat c = new Chat(u1, u2);
-//        c.addAMessage("hello", u1);
-//        Database db = new Database(new ArrayList<User>() {{add(u1);add(u2);add(u3);add(u4);}});
-//    }
+    public static void main(String[] args) throws InvalidInputException {
+        User u1 = new User("personA", "1234", "personA@purdue.edu", "IE",
+                new ArrayList<>(),null,null,true);
+        User u2 = new User("personB", "1234", "personB@purdue.edu", "ECE",
+                new ArrayList<User>() {{add(u1);}},null,null,true);
+        User u3 = new User("personC", "1234", "personC@purdue.edu", "CS",
+                new ArrayList<User>() {{add(u1);add(u2);}},null,null,true);
+        User u4 = new User("personD", "2222", "personD@purdue.edu", "ME",
+                null,null,null,true);
+        Chat c = new Chat(u1, u2);
+        c.addAMessage("hello", u1);
+        Database db = new Database(new ArrayList<User>() {{add(u1);add(u2);add(u3);add(u4);}});
+    }
 
 }
