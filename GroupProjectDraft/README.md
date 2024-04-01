@@ -7,6 +7,8 @@ search up a user, and email and password info.
 
 The User class will contain fields and methods relating to user info and comparing two users.
 
-The UserInterface class will
-ImpossibleChangeException is a custom Exception for when an invalid maze is being read from file.
-InvalidInputException is a custom Exception for when an invalid maze is being read from file.
+The UserInterface class will contatin all fields for the User class.
+
+ImpossibleChangeException is a custom Exception for when an invalid change is being made.
+
+InvalidInputException is a custom Exception for when an invalid input is being inputted.
