@@ -9,7 +9,7 @@ public class Chat {
     private String fileNameForTheTwoUser;
     private PrintWriter pw1;
 
-    public Chat(User user1, User user2) {
+    public Chat(User user1, User user2) throws InvalidInputException {
         try {
             this.user1 = user1;
             this.user2 = user2;
@@ -19,8 +19,8 @@ public class Chat {
             pw1.println("Chat between " + user1.getEmail() + " & " + user2.getEmail());
             messages = new ArrayList<>();
             whoSentTheMessage = new ArrayList<>();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new InvalidInputException("Invalid Input");
         }
     }
 
@@ -43,7 +43,7 @@ public class Chat {
         }
         return true;
     }
-    public synchronized void deleteMessage(String message) {
+    public synchronized void deleteMessage(String message) throws ImpossibleChangeException {
         try {
             PrintWriter pw = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser)));
             pw1 = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser), true));
@@ -61,10 +61,10 @@ public class Chat {
             messages.remove(message);
             whoSentTheMessage.remove(whoSentTheMessage.get(cnt - 1));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new ImpossibleChangeException("Invalid Input");
         }
     }
-    public synchronized void deleteMessage(int input) {
+    public synchronized void deleteMessage(int input) throws ImpossibleChangeException {
         try {
             // this method records how many messages from the most recent message sent you would like to delete
             // For example, an input of 1 would delete the most recent message sent
@@ -85,45 +85,8 @@ public class Chat {
             messages.remove(messages.get(input));
             whoSentTheMessage.remove(whoSentTheMessage.get(cnt - 1));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new ImpossibleChangeException("Invalid Change");
         }
-    }
-
-
-//    public static void main(String[] args) throws InvalidInputException {
-//        User u1 = new User("personA", "1234", "personA@purdue.edu", "eco",null,null,null,true);
-//        User u2 = new User("personB", "1234", "personB@purdue.edu", "eco",null,null,null,true);
-//
-//        Chat c = new Chat(u1, u2);
-//        c.addAMessage("hello", u1);
-//        c.addAMessage("hi", u2);
-//
-//    }
-    public static void main(String[] args) throws InvalidInputException {
-        User u1 = new User("personA", "1234", "personA@purdue.edu", "IE",
-                new ArrayList<User>(),null,null,true);
-        User u2 = new User("personB", "1234", "personB@purdue.edu", "ECE",
-                new ArrayList<User>() {{add(u1);}},null,null,true);
-        User u3 = new User("personC", "1234", "personC@purdue.edu", "CS",
-                new ArrayList<User>() {{add(u1);add(u2);}},null,null,true);
-        User u4 = new User("personD", "2222", "personD@purdue.edu", "ME",
-                null,null,null,true);
-        u1.addFriend(u2);
-        Chat c = new Chat(u1, u2);
-        Chat d = new Chat(u2, u3);
-        u2.blockUser(u3);
-        d.addAMessage("No",u2);
-        u2.unblockUser(u3);
-        c.addAMessage("Yes", u2);
-        u1.removeFriend(u2);
-        u1.addFriend(u2);
-        c.addAMessage("this is sent by person a", u1);
-        c.addAMessage("this is sent by person b",u2);
-        c.addAMessage("delet this",u1);
-        c.deleteMessage(1);
-
-
-        Database db = new Database(new ArrayList<User>() {{add(u1);add(u2);add(u3);add(u4);}});
     }
 
     public User getUser1() {
