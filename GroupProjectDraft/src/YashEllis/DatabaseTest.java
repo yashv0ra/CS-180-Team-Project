@@ -5,19 +5,16 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.RunWith;
 import org.junit.runner.notification.Failure;
-
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-
 /**
- * A framework to run public test cases for Group Project.
+ * The framework for running test cases for the database class.
  *
- * <p>Purdue University -- CS18000 -- Spring 2021</p>
+ * Purdue University -- CS18000 -- Spring 2024 -- Team Project Phase 1
  *
- * @author J Morris Purdue CS
- * @version Feb 20, 2024
+ * @author Yash Vora, Ellis Sioukas, Zack Wang, Jad Karaki
+ * @version April 1, 2024
  */
-
 @RunWith(Enclosed.class)
 public class DatabaseTest {
 
@@ -31,13 +28,20 @@ public class DatabaseTest {
             }
         }
     }
-
+    /**
+     * The framework for running the test cases for the database class.
+     *
+     * Purdue University -- CS18000 -- Spring 2024 -- Team Project Phase 1
+     *
+     * @author Yash Vora, Ellis Sioukas, Zack Wang, Jad Karaki
+     * @version April 1, 2024
+     */
     public static class TestCase {
 
         private static final String INFILE = "input.txt";
 
         @Test(timeout = 1000)
-        public void BadDataExceptionDeclarationTest() {
+        public void badDataExceptionDeclarationTest() {
             Class<?> clazz;
             int modifiers;
             Class<?> superclass;
@@ -62,7 +66,7 @@ public class DatabaseTest {
         }
 
         @Test(timeout = 1000)
-        public void ImpossibleChangeException() {
+        public void impossibleChangeException() {
             Class<?> clazz;
             int modifiers;
             Class<?> superclass;
@@ -87,7 +91,7 @@ public class DatabaseTest {
         }
 
         @Test(timeout = 1000)
-        public void UserClassDeclarationTest() {
+        public void userClassDeclarationTest() {
             Class<?> clazz;
             int modifiers;
             Class<?> superclass;
@@ -118,40 +122,40 @@ public class DatabaseTest {
                 User u1 = new User("personA", "1234", "personA@purdue.edu", "IE",
                         new ArrayList<>(), null, null, true);
                 User u2 = new User("personB", "1234", "personB@purdue.edu", "ECE",
-                        new ArrayList<User>() {{
+                        new ArrayList<User>() { {
                             add(u1);
-                        }}, null, null, true);
+                        } }, null, null, true);
                 User u3 = new User("personC", "1234", "personC@purdue.edu", "CS",
-                        new ArrayList<User>() {{
+                        new ArrayList<User>() { {
                             add(u1);
                             add(u2);
-                        }}, null, null, true);
+                        } }, null, null, true);
                 User u4 = new User("personD", "2222", "personD@purdue.edu", "ME",
                         null, null, null, true);
                 Chat c = new Chat(u1, u2);
                 c.addAMessage("hello", u1);
-                Database db = new Database(new ArrayList<User>() {{
-                    add(u1);
-                    add(u2);
-                    add(u3);
-                    add(u4);
-                }});
+                Database db = new Database(new ArrayList<User>() { {
+                        add(u1);
+                        add(u2);
+                        add(u3);
+                        add(u4);
+                    } } );
                 if (!db.login("personA@purdue.edu", "1234")) {
                     Assert.assertTrue("Log in was successful, but did not go through", false);
                 }
                 if (db.login("personA@purdue.edu", "1111")) {
                     Assert.assertTrue("Log in was not successful, but did go through", false);
                 }
-                if(!db.usersEmailSearch("personD@purdue.edu").equals(u4)) {
+                if (!db.usersEmailSearch("personD@purdue.edu").equals(u4)) {
                     Assert.assertTrue("Returned wrong user based on email", false);
                 }
-                if(!db.usersMajorSearch("personD@purdue.edu").get(0).equals(u4)) {
+                if (!db.usersMajorSearch("personD@purdue.edu").get(0).equals(u4)) {
                     Assert.assertTrue("Returned wrong user based on major", false);
                 }
-                if(!db.usersNameSearch("personC").get(0).equals(u3)) {
+                if (!db.usersNameSearch("personC").get(0).equals(u3)) {
                     Assert.assertTrue("Returned wrong user based on name", false);
                 }
-                if(!db.modifyUser(u2, u3) && db.usersEmailSearch("personB@purdue.edu").equals(u2)) {
+                if (!db.modifyUser(u2, u3) && db.usersEmailSearch("personB@purdue.edu").equals(u2)) {
                     Assert.assertTrue("Modified user incorrectly", false);
                 }
             } catch (InvalidInputException e) {
