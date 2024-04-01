@@ -23,41 +23,43 @@ InvalidInputException is a custom Exception for when an invalid input is being i
 
 Class Descriptions:
 
-The ChatInterface class contains 13 methods all for the Chat class. There is a boolean method named "addAMessage" with a 
-String parameter named "message" and a User parameter named "whichUser". There is additionally a void method named
-"deleteMessage" with a String parameter named "message". There is also a boolean method named "isRestricted" with two
-User parameters named "A" and "B". The other ten methods are comprised of five getter methods and five setter methods.
-The five getter methods are two User methods named "getUser1" and "getUser2", a String Array List method named "getMessages", a
-User Array List method named "getWhoSentTheMessage", and a String method named "getFileNameForTheTwoUser".
-The five setter methods are all void and are named "setUser1" with a User parameter named "user1", "setUser2" with a User parameter
-named "user2", "setMessages" with a String Array List parameter named "messages", "setWhoSentTheMessage" with a User Array List
-parameter named WhoSentTheMessage, and "setFileNameForTheTwoUser with a String parameter named "fileNameForTheTwoUser".
+The ChatInterface class contains 14 methods all for the Chat class. There is a boolean method named "addAMessage" with a 
+String parameter named "message" and a User parameter named "whichUser". There are additionally two void methods named
+"deleteMessage", one with a String parameter named "message" and one with a Int parameter named "input". There is also 
+a boolean method named "isRestricted" with two User parameters named "A" and "B". The other ten methods are comprised 
+of five getter methods and five setter methods. The five getter methods are two User methods named "getUser1" and 
+"getUser2", a String Array List method named "getMessages", a User Array List method named "getWhoSentTheMessage", and 
+a String method named "getFileNameForTheTwoUser". The five setter methods are all void and are named "setUser1" with a 
+User parameter named "user1", "setUser2" with a User parameter named "user2", "setMessages" with a String Array List 
+parameter named "messages", "setWhoSentTheMessage" with a User Array List parameter named WhoSentTheMessage, and 
+"setFileNameForTheTwoUser with a String parameter named "fileNameForTheTwoUser".
 
 The Chat class contains 5 fields: A String ArrayList named "messages" A User ArrayList named "whoSentTheMessage", 
 two users named "User1" and "User2", and a String named "fileNameForTheTwoUser". Each of the five fields has its' own 
 getter and setter methods. Additionally the class contains a Chat constructor, a Boolean method named "addAMessage", 
-a Void method named "deleteMessage" a Boolean method named isRestricted, and a test case that tests for invalid inputs 
-in a new Chat object. The addAMessage and deleteMessage methods both have a String parameter named "message" and addAMessage
-also has a User parameter named "whichUser". The two methods add and delete messages between two users. The isRestricted method has 
+two Void method named "deleteMessage" a Boolean method named isRestricted, and a test case that tests for invalid inputs 
+in a new Chat object. The addAMessage method has a String parameter named "message" and has a User parameter named "whichUser". 
+The two deleteMessage methods have a String parameter named "message" and an Int parameter named "input" respectively.
+The three methods add and delete messages between two users. The isRestricted method has 
 two Profile parameters which are named "A" and "B". The isRestricted method will check if a user is restricted by 
 another user. The test case throws an InvalidInputException if an invalid input is added to a User object.
 
-The DatabaseInterface class contains 7 methods. The first four are a boolean method named login, with String parameters 
+The DatabaseInterface class contains 6 methods. The first four are a boolean method named login, with String parameters 
 "email" and "password", two User Array List methods named usersMajorSearch with a String parameter named "major" and 
 usersNameSearch with a String parameter named "name", and a User method named usersEmailSearch with a String parameter
-named "email". The next two are two boolean methods both named modifyUser with User parameters named "aimUser" and
+named "email". The last two are two boolean methods both named modifyUser with User parameters named "aimUser" and
 "changed" for one method and a User Array List parameter named "usersNeedToBeChanged", as well as a User Array List
-parameter named "changed" for the other. The final method is a String method named toString with an Int parameter named "index".
+parameter named "changed" for the other.
 
 The Database class contains 1 field: An User ArrayList named "listOfUsers". Database also contains a Database constructor, a
 Boolean method named "login", a User ArrayList named "usersMajorSearch", a User ArrayList named "usersNameSearch", 
-a User ArrayList named "usersEmailSearch", two Boolean methods named "ModifyUser" and a String method named "toString".
+a User ArrayList named "usersEmailSearch", and two Boolean methods named "ModifyUser".
 The three search methods each have a String named "login", "name", and "email" respectively. Each of the three methods search
 their respective String(ex: usersNameSearch searches for name). The first of the two ModifyUser methods has two User parameters named 
 "aimUser" and "changed". This method changes the information of the user. The second ModifyUser method has two User ArrayList parameters
-named "usersNeedToBeChanged" and "changed" and also throws an ImpossibleChangeException. This method changes a UserArray list. The
-toString method has an Int parameter named index and the method prints the toString of the Database class. The Database class additionally 
-has a test case which tests for inputs for new User objects and throws an InvalidInputException if an invalid input is entered.
+named "usersNeedToBeChanged" and "changed" and also throws an ImpossibleChangeException. This method changes a UserArray list. The 
+Database class additionally has a test case which tests for inputs for new User objects and throws an InvalidInputException if an 
+invalid input is entered.
 
 The UserInterface class contains 10 methods all for the User class. The first 4 are String getter methods named "getName", "getPassword",
 "getEmail", and "getMajor". Each of these methods gets one of the four User parameters being name, password, email, and major. 
@@ -77,7 +79,7 @@ and the blockedList. The blockUser method adds users to the blockedList and remo
 unblockUser method removes users from the blockedList. There is also a void method named "changeRestriction" in which
 the restriction is flipped from true to false and vice versa. There is also a boolean method named "canMessage" with a
 User parameter named "A". The method checks the friend status and restriction status between two users to see if a user
-can message the other user. There is also a boolean method named  "isBlocked" with a User parameter "A" which checks to 
+can message the other user. There is also a boolean method named  "blocked" with a User parameter "A" which checks to 
 see if a user has blocked another user and vice versa. There are an additional four getter and setter for the aforementioned
 methods. "getFriendsList", "getBlockedList", "getChatList", and "isRestrictMessage" all return their respective variables 
 which are friendsList, blockedList, chatList, and restrictMessage. "setFriendsList", "setBlockedList", "setChatList", and
