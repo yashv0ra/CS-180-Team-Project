@@ -146,7 +146,7 @@ public class User {
         this.major = major;
     }
     public boolean compareTo(User user) {
-        return this.name.equals(user.name) && this.email.equals(user.email);
+        return this.email.equals(user.email);
 
     }
 }
