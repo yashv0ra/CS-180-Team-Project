@@ -12,7 +12,7 @@ import java.util.Objects;
 public class User {
     private String name;
     private String password;
-    private final String email;
+    private String email;
     private String major;
     public ArrayList<User> friendsList;
     public ArrayList<User> blockedList;
@@ -67,26 +67,26 @@ public class User {
         this.blockedList = null;
         this.chatList = null;
     }
-    public synchronized void addFriend(User user) {
+    public void addFriend(User user) {
         if (!friendsList.contains(user) && !blockedList.contains(user)) {
             friendsList.add(user);
         }
     }
 
-    public synchronized void removeFriend(User user) {
+    public void removeFriend(User user) {
         friendsList.remove(user);
         blockedList.remove(user);
 
     }
 
-    public synchronized void blockUser(User user) {
+    public void blockUser(User user) {
         if (!blockedList.contains(user)) {
             blockedList.add(user);
         }
         friendsList.remove(user);
     }
 
-    public synchronized void unblockUser(User user) {
+    public void unblockUser(User user) {
         blockedList.remove(user);
     }
 
@@ -100,7 +100,7 @@ public class User {
 //        }
 //    }
 
-    public synchronized void changeRestriction() {
+    public void changeRestriction() {
         restrictMessage = !restrictMessage;
     }
     public boolean canMessage(User a) {
@@ -183,6 +183,10 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setPassword(String password) {
