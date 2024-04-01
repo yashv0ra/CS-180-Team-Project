@@ -1,9 +1,13 @@
 Class Overview:
 
-This project contains 6 classes named Chat.java, Database.java, UserInterface.java, User.java, 
+This project contains 8 classes named ChatInterface.java, Chat.java, DatabaseInterface.java, Database.java, UserInterface.java, User.java, 
 ImpossibleChangeException.java, and InvalidInputException.java.
 
+The ChatInterface class will contatin all methods for the Chat class.
+
 The Chat class will contain fields and methods representing messages and messaging between two users. 
+
+The DatabaseInterface class will contatin all methods for the Database class.
 
 The Database class will contain methods and fields related to users including how to modify a user, 
 search up a user, and email and password info.
@@ -18,6 +22,16 @@ InvalidInputException is a custom Exception for when an invalid input is being i
 
 
 Class Descriptions:
+
+The ChatInterface class contains 13 methods all for the Chat class. There is a boolean method named "addAMessage" with a 
+String parameter named "message" and a User parameter named "whichUser". There is additionally a void method named
+"deleteMessage" with a String parameter named "message". There is also a boolean method named "isRestricted" with two
+User parameters named "A" and "B". The other ten methods are comprised of five getter methods and five setter methods.
+The five getter methods are two User methods named "getUser1" and "getUser2", a String Array List method named "getMessages", a
+User Array List method named "getWhoSentTheMessage", and a String method named "getFileNameForTheTwoUser".
+The five setter methods are all void and are named "setUser1" with a User parameter named "user1", "setUser2" with a User parameter
+named "user2", "setMessages" with a String Array List parameter named "messages", "setWhoSentTheMessage" with a User Array List
+parameter named WhoSentTheMessage, and "setFileNameForTheTwoUser with a String parameter named "fileNameForTheTwoUser".
 
 The Chat class contains 5 fields: A String ArrayList named "messages" A User ArrayList named "whoSentTheMessage", 
 two users named "User1" and "User2", and a String named "fileNameForTheTwoUser". Each of the five fields has its' own 
