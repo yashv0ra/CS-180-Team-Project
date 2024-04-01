@@ -78,7 +78,7 @@ public class Database {
         return returnUser;
     }
 
-    public boolean modifyUser(User aimUser, User changed) {
+    public synchronized boolean modifyUser(User aimUser, User changed) {
         for (int i = 0; i < listOfUsers.size(); i++) {
             if (listOfUsers.get(i).compareTo(aimUser)) {
                 listOfUsers.get(i).setName(changed.getName());
@@ -89,7 +89,7 @@ public class Database {
         return false;
     }
 
-    public boolean modifyUser(ArrayList<User> usersNeedToBeChanged, ArrayList<User> changed) throws ImpossibleChangeException{
+    public synchronized boolean modifyUser(ArrayList<User> usersNeedToBeChanged, ArrayList<User> changed) throws ImpossibleChangeException{
         if (usersNeedToBeChanged.size() != changed.size()) {
             throw new ImpossibleChangeException("lists do not match");
         } else {
