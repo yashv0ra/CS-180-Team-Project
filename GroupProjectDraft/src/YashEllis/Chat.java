@@ -24,7 +24,7 @@ public class Chat {
         }
     }
 
-    public boolean addAMessage(String message, User whichUser) {
+    public synchronized boolean addAMessage(String message, User whichUser) {
         try {
             if (user1.blocked(user2) || user2.blocked(user1)) {
                 pw1.println("<Blocked Message>");
@@ -43,7 +43,7 @@ public class Chat {
         }
         return true;
     }
-    public void deleteMessage(String message) {
+    public synchronized void deleteMessage(String message) {
         try {
             PrintWriter pw = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser)));
             pw1 = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser), true));
@@ -64,7 +64,7 @@ public class Chat {
             throw new RuntimeException(e);
         }
     }
-    public void deleteMessage(int input) {
+    public synchronized void deleteMessage(int input) {
         try {
             // this method records how many messages from the most recent message sent you would like to delete
             // For example, an input of 1 would delete the most recent message sent
