@@ -1,7 +1,14 @@
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Objects;
-
+/**
+ * An interface for accessing the User class
+ *
+ * Purdue University -- CS18000 -- Spring 2024 -- Team Project Phase 1
+ *
+ * @author Yash Vora, Ellis Sioukas, Zack Wang, Jad Karaki
+ * @version April 1, 2024
+ */
 public class User {
     private String name;
     private String password;
@@ -12,13 +19,14 @@ public class User {
     public ArrayList<Chat> chatList;
     boolean restrictMessage;
     public User(String name, String password, String email, String major, ArrayList<User> friendsList,
-                   ArrayList<User> blockedList, ArrayList<Chat> chatList, boolean restrictMessage) throws InvalidInputException {
+                   ArrayList<User> blockedList, ArrayList<Chat> chatList, boolean restrictMessage)
+            throws InvalidInputException {
         //Checks for no empty contents
         if (name.isEmpty() || password.isEmpty() || email.isEmpty() || major.isEmpty()) {
             throw new InvalidInputException("Invalid Input!");
         }
         //check for valid email
-        if(email.contains("@") && !email.contains(" ")) {
+        if (email.contains("@") && !email.contains(" ")) {
             String[] emailElements = email.split("@");
             if (emailElements.length == 2 && !emailElements[0].isEmpty() && emailElements[1].equals("purdue.edu")) {
                 this.email = email;
@@ -95,34 +103,31 @@ public class User {
     public void changeRestriction() {
         restrictMessage = !restrictMessage;
     }
-    public boolean canMessage(User A) {
+    public boolean canMessage(User a) {
         boolean friendCheck1 = false;
         boolean friendCheck2 = false;
         for (int i = 0; i < this.friendsList.size(); i++) {
-            if (this.friendsList.get(i).compareTo(A)) {
+            if (this.friendsList.get(i).compareTo(a)) {
                 friendCheck1 = true;
                 break;
             }
         }
-        for (int i = 0; i < A.friendsList.size(); i++) {
-            if (A.friendsList.get(i).compareTo(this)) {
+        for (int i = 0; i < a.friendsList.size(); i++) {
+            if (a.friendsList.get(i).compareTo(this)) {
                 friendCheck2 = true;
                 break;
             }
         }
         if (friendCheck2 && friendCheck1) {
             return true;
-        } if (A.isRestrictMessage() && !friendCheck2) {
-            // if the user restricts messages from people they aren't friends with
-            // and the other user is not your friend, then restrict
-            return false;
-        } else {
-            return true;
         }
+        // if the user restricts messages from people they aren't friends with
+        // and the other user is not your friend, then restrict
+        return !a.isRestrictMessage() || friendCheck2;
     }
-    public boolean blocked(User A) {
+    public boolean blocked(User a) {
         for (int i = 0; i < this.blockedList.size(); i++) {
-            if (this.blockedList.get(i).compareTo(A)) {
+            if (this.blockedList.get(i).compareTo(a)) {
                 return true;
             }
         }
