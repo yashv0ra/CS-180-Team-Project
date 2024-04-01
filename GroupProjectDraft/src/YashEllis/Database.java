@@ -3,6 +3,10 @@ import java.util.ArrayList;
 public class Database {
     private ArrayList<User> listOfUsers;
 
+    public Database(ArrayList<User> listOfUsers) {
+        this.listOfUsers = listOfUsers;
+    }
+
     public boolean login(String email, String password) {
         for (int i = 0; i < listOfUsers.size(); i++) {
             if (listOfUsers.get(i).getEmail().equals(email)) {
@@ -59,14 +63,14 @@ public class Database {
 
         if (email.contains("@")) {
             for (int i = 0; i < listOfUsers.size(); i++) {
-                if (email.equals(listOfUsers.get(i))) {
+                if (email.equals(listOfUsers.get(i).getEmail())) {
                     returnUser = listOfUsers.get(i);
                 }
             }
         } else {
             String emailFull = email + "@purdue.edu";
             for (int i = 0; i < listOfUsers.size(); i++) {
-                if (emailFull.equals(listOfUsers.get(i))) {
+                if (emailFull.equals(listOfUsers.get(i).getEmail())) {
                     returnUser = listOfUsers.get(i);
                 }
             }
@@ -111,5 +115,20 @@ public class Database {
 //        }
 //    }
 
+
+//For testing this class
+//    public static void main(String[] args) throws InvalidInputException {
+//        User u1 = new User("personA", "1234", "personA@purdue.edu", "IE",
+//                new ArrayList<>(),null,null,true);
+//        User u2 = new User("personB", "1234", "personB@purdue.edu", "ECE",
+//                new ArrayList<User>() {{add(u1);}},null,null,true);
+//        User u3 = new User("personC", "1234", "personC@purdue.edu", "CS",
+//                new ArrayList<User>() {{add(u1);add(u2);}},null,null,true);
+//        User u4 = new User("personD", "2222", "personD@purdue.edu", "ME",
+//                null,null,null,true);
+//        Chat c = new Chat(u1, u2);
+//        c.addAMessage("hello", u1);
+//        Database db = new Database(new ArrayList<User>() {{add(u1);add(u2);add(u3);add(u4);}});
+//    }
 
 }
