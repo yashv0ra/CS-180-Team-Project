@@ -54,3 +54,11 @@ The constructor returns a message whenever an ImpossibleChangeException is throw
 
 The InvalidInputException class contains a InvalidInputException constructor with a String paramater named "message".
 The constructor returns a message whenever an InvalidInputException is thrown.
+
+
+Group Submissions:
+
+BLANK submitted phase 1 on Brightspace.
+BLANK submitted phase 1 on Vocareum.
+
+Compiling and Running:
