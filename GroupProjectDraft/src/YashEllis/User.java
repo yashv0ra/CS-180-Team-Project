@@ -67,26 +67,26 @@ public class User {
         this.blockedList = null;
         this.chatList = null;
     }
-    public void addFriend(User user) {
+    public synchronized void addFriend(User user) {
         if (!friendsList.contains(user) && !blockedList.contains(user)) {
             friendsList.add(user);
         }
     }
 
-    public void removeFriend(User user) {
+    public synchronized void removeFriend(User user) {
         friendsList.remove(user);
         blockedList.remove(user);
 
     }
 
-    public void blockUser(User user) {
+    public synchronized void blockUser(User user) {
         if (!blockedList.contains(user)) {
             blockedList.add(user);
         }
         friendsList.remove(user);
     }
 
-    public void unblockUser(User user) {
+    public synchronized void unblockUser(User user) {
         blockedList.remove(user);
     }
 
@@ -100,7 +100,7 @@ public class User {
 //        }
 //    }
 
-    public void changeRestriction() {
+    public synchronized void changeRestriction() {
         restrictMessage = !restrictMessage;
     }
     public boolean canMessage(User a) {
