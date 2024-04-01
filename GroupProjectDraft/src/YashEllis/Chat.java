@@ -7,98 +7,123 @@ public class Chat {
     private User user1;
     private User user2;
     private String fileNameForTheTwoUser;
+    private PrintWriter pw1;
 
     public Chat(User user1, User user2) {
-        this.user1 = user1;
-        this.user2 = user2;
-        fileNameForTheTwoUser = user1.getEmail() + "_with_" + user2.getEmail();
-        if (isBlocked(user1, user2) || canMessage(user1, user2)) {
-            messages = null;
-            whoSentTheMessage = null;
-        } else {
+        try {
+            this.user1 = user1;
+            this.user2 = user2;
+            fileNameForTheTwoUser = user1.getEmail() + "_with_" + user2.getEmail();
+            PrintWriter pw = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser)));
+            pw1 = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser), true));
+            pw1.println("Chat between " + user1.getEmail() + " & " + user2.getEmail());
             messages = new ArrayList<>();
             whoSentTheMessage = new ArrayList<>();
-        }
-        try (PrintWriter pw = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser)))){
-            pw.close();
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public boolean addAMessage(String message, User whichUser) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser)))){
-            pw.print(whichUser.getEmail() + ": ");
-            pw.println(message);
-
-        } catch (IOException e) {
+        try {
+            if (user1.blocked(user2) || user2.blocked(user1)) {
+                pw1.println("<Blocked Message>");
+                pw1.flush();
+            } else if (!user1.canMessage(user2) || !user2.canMessage(user1)) {
+                pw1.println("<Please add this user as a friend to message>");
+                pw1.flush();
+            } else {
+                pw1.println(whichUser.getEmail() + ": " + message);
+                pw1.flush();
+                messages.add(message);
+                whoSentTheMessage.add(whichUser);
+            }
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
-    public boolean isBlocked(User A, User B) {
-        for (int i = 0; i < A.blockedList.size(); i++) {
-            if (A.blockedList.get(i).compareTo(B)) {
-                return true;
-            }
-        }
-        for (int i = 0; i < B.blockedList.size(); i++) {
-            if (B.blockedList.get(i).compareTo(A)) {
-                return true;
-            }
-        }
-        return false;
-    }
     public void deleteMessage(String message) {
-        //currently doesn't account for messages that are the same
-        int cnt = 0;
-        for (int i = 0; i < messages.size(); i++) {
-            if (messages.get(i).equals(message)) {
-                break;
+        try {
+            PrintWriter pw = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser)));
+            pw1 = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser), true));
+            int cnt = 0;
+            for (int i = 0; i < messages.size(); i++) {
+                if (!messages.get(i).equals(message)) {
+                    pw1.println(whoSentTheMessage.get(i).getEmail() + ": " + messages.get(i));
+                    pw1.flush();
+                } else {
+                    pw1.println("<Deleted Message>");
+                    pw1.flush();
+                }
+                cnt++;
             }
-            cnt++;
-        }
-        messages.remove(message);
-        whoSentTheMessage.get(cnt);
-    }
-
-    public boolean canMessage(User A, User B) {
-        boolean friendCheck1 = false;
-        boolean friendCheck2 = false;
-        for (int i = 0; i < A.friendsList.size(); i++) {
-            if (A.friendsList.get(i).compareTo(B)) {
-                friendCheck1 = true;
-            }
-        }
-        for (int i = 0; i < B.friendsList.size(); i++) {
-            if (B.friendsList.get(i).compareTo(A)) {
-                friendCheck2 = true;
-            }
-        }
-        if (friendCheck2 && friendCheck1) {
-            return true;
-        }
-        if (A.isRestrictMessage() && !friendCheck1) {
-            // if the user restricts messages from people they aren't friends with
-            // and the other user is not your friend, then restrict
-            return false;
-        } else if (B.isRestrictMessage() && !friendCheck2) {
-            // if the user restricts messages from people they aren't friends with
-            // and the other user is not your friend, then restrict
-            return false;
-        } else {
-            return true;
+            messages.remove(message);
+            whoSentTheMessage.remove(whoSentTheMessage.get(cnt - 1));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
+    public void deleteMessage(int input) {
+        try {
+            // this method records how many messages from the most recent message sent you would like to delete
+            // For example, an input of 1 would delete the most recent message sent
+            PrintWriter pw = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser)));
+            pw1 = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser), true));
+            int cnt = 0;
+            int index = messages.size() - input;
+            for (int i = 0; i < messages.size(); i++) {
+                if (i != index) {
+                    pw1.println(whoSentTheMessage.get(i).getEmail() + ": " + messages.get(i));
+                    pw1.flush();
+                } else {
+                    pw1.println("<Deleted Message>");
+                    pw1.flush();
+                }
+                cnt++;
+            }
+            messages.remove(messages.get(input));
+            whoSentTheMessage.remove(whoSentTheMessage.get(cnt - 1));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+
+//    public static void main(String[] args) throws InvalidInputException {
+//        User u1 = new User("personA", "1234", "personA@purdue.edu", "eco",null,null,null,true);
+//        User u2 = new User("personB", "1234", "personB@purdue.edu", "eco",null,null,null,true);
+//
+//        Chat c = new Chat(u1, u2);
+//        c.addAMessage("hello", u1);
+//        c.addAMessage("hi", u2);
+//
+//    }
     public static void main(String[] args) throws InvalidInputException {
-        User u1 = new User("personA", "1234", "personA@purdue.edu", "eco",null,null,null,true);
-        User u2 = new User("personB", "1234", "personB@purdue.edu", "eco",null,null,null,true);
-
+        User u1 = new User("personA", "1234", "personA@purdue.edu", "IE",
+                new ArrayList<User>(),null,null,true);
+        User u2 = new User("personB", "1234", "personB@purdue.edu", "ECE",
+                new ArrayList<User>() {{add(u1);}},null,null,true);
+        User u3 = new User("personC", "1234", "personC@purdue.edu", "CS",
+                new ArrayList<User>() {{add(u1);add(u2);}},null,null,true);
+        User u4 = new User("personD", "2222", "personD@purdue.edu", "ME",
+                null,null,null,true);
+        u1.addFriend(u2);
         Chat c = new Chat(u1, u2);
-        c.addAMessage("hello", u1);
+        Chat d = new Chat(u2, u3);
+        u2.blockUser(u3);
+        d.addAMessage("No",u2);
+        u2.unblockUser(u3);
+        c.addAMessage("Yes", u2);
+        u1.removeFriend(u2);
+        u1.addFriend(u2);
+        c.addAMessage("this is sent by person a", u1);
+        c.addAMessage("this is sent by person b",u2);
+        c.addAMessage("delet this",u1);
+        c.deleteMessage(1);
 
+
+        Database db = new Database(new ArrayList<User>() {{add(u1);add(u2);add(u3);add(u4);}});
     }
 
     public User getUser1() {
