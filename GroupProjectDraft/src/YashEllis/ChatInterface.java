@@ -2,6 +2,7 @@ import java.util.ArrayList;
 public interface ChatInterface {
     public boolean addAMessage(String message, User whichUser);
     public void deleteMessage(String message);
+    public void deleteMessage(int input);
     public boolean isRestricted(User A, User B);
     public User getUser1();
     public User getUser2();
