@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 
 @RunWith(Enclosed.class)
-public class RunLocalTest {
+public class DatabaseTest {
 
     public static void main(String[] args) {
         Result result = JUnitCore.runClasses(TestCase.class);
@@ -137,10 +137,10 @@ public class RunLocalTest {
                     add(u4);
                 }});
                 if (!db.login("personA@purdue.edu", "1234")) {
-                    Assert.assertTrue("Log in was succesful, but did not go through", false);
+                    Assert.assertTrue("Log in was successful, but did not go through", false);
                 }
-                if (!db.login("personA@purdue.edu", "1111")) {
-                    Assert.assertTrue("Log in was not succesful, but did go through", false);
+                if (db.login("personA@purdue.edu", "1111")) {
+                    Assert.assertTrue("Log in was not successful, but did go through", false);
                 }
                 if(!db.usersEmailSearch("personD@purdue.edu").equals(u4)) {
                     Assert.assertTrue("Returned wrong user based on email", false);
