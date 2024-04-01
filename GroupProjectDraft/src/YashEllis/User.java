@@ -120,14 +120,9 @@ public class User {
             return true;
         }
     }
-    public boolean isBlocked(User A) {
+    public boolean blocked(User A) {
         for (int i = 0; i < this.blockedList.size(); i++) {
             if (this.blockedList.get(i).compareTo(A)) {
-                return true;
-            }
-        }
-        for (int i = 0; i < A.blockedList.size(); i++) {
-            if (A.friendsList.get(i).compareTo(this)) {
                 return true;
             }
         }
