@@ -9,17 +9,21 @@ public class Chat {
     private String fileNameForTheTwoUser;
 
     public Chat(User user1, User user2) {
-        messages = new ArrayList<>();
-        whoSentTheMessage = new ArrayList<>();
         this.user1 = user1;
         this.user2 = user2;
         fileNameForTheTwoUser = user1.getEmail() + "_with_" + user2.getEmail();
-
+        if (isBlocked(user1, user2) || canMessage(user1, user2)) {
+            messages = null;
+            whoSentTheMessage = null;
+        } else {
+            messages = new ArrayList<>();
+            whoSentTheMessage = new ArrayList<>();
+        }
         try (PrintWriter pw = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser)))){
             pw.close();
 
         } catch (IOException e) {
-
+            throw new RuntimeException(e);
         }
     }
 
@@ -32,6 +36,19 @@ public class Chat {
             return false;
         }
         return true;
+    }
+    public boolean isBlocked(User A, User B) {
+        for (int i = 0; i < A.blockedList.size(); i++) {
+            if (A.blockedList.get(i).compareTo(B)) {
+                return true;
+            }
+        }
+        for (int i = 0; i < B.blockedList.size(); i++) {
+            if (B.blockedList.get(i).compareTo(A)) {
+                return true;
+            }
+        }
+        return false;
     }
     public void deleteMessage(String message) {
         //currently doesn't account for messages that are the same
@@ -46,42 +63,38 @@ public class Chat {
         whoSentTheMessage.get(cnt);
     }
 
-    public boolean isRestricted(Profile A, Profile B) {
+    public boolean canMessage(User A, User B) {
         boolean friendCheck1 = false;
         boolean friendCheck2 = false;
-        boolean restrictCheck1 = false;
-        boolean restrictCheck2 = false;
-
         for (int i = 0; i < A.friendsList.size(); i++) {
             if (A.friendsList.get(i).compareTo(B)) {
                 friendCheck1 = true;
             }
-        }
-        if (A.isRestrictMessage() && !friendCheck1) {
-            // if the user restricts messages from people they aren't friends with
-            // and the other user is not your friend, then restrict
-            restrictCheck1 = true;
         }
         for (int i = 0; i < B.friendsList.size(); i++) {
             if (B.friendsList.get(i).compareTo(A)) {
                 friendCheck2 = true;
             }
         }
-        if (B.isRestrictMessage() && !friendCheck2) {
+        if (friendCheck2 && friendCheck1) {
+            return true;
+        }
+        if (A.isRestrictMessage() && !friendCheck1) {
             // if the user restricts messages from people they aren't friends with
             // and the other user is not your friend, then restrict
-            restrictCheck2 = true;
-        }
-        if (restrictCheck1 && restrictCheck2) {
-            return true;
-        } else {
             return false;
+        } else if (B.isRestrictMessage() && !friendCheck2) {
+            // if the user restricts messages from people they aren't friends with
+            // and the other user is not your friend, then restrict
+            return false;
+        } else {
+            return true;
         }
     }
 
     public static void main(String[] args) throws InvalidInputException {
-        User u1 = new User("personA", "1234", "personA@purdue.edu", "eco");
-        User u2 = new User("personB", "1234", "personB@purdue.edu", "eco");
+        User u1 = new User("personA", "1234", "personA@purdue.edu", "eco",null,null,null,true);
+        User u2 = new User("personB", "1234", "personB@purdue.edu", "eco",null,null,null,true);
 
         Chat c = new Chat(u1, u2);
         c.addAMessage("hello", u1);

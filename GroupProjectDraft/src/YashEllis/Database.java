@@ -97,12 +97,12 @@ public class Database {
     }
 
     //should this method the same or similar to the toString method?
-//    public String toString(int index) {
-//        String result = "name: " + listOfUsers.get(index).getName()
-//                + "\nEmail: " + listOfUsers.get(index).getEmail()
-//                + "\nMajor: " + listOfUsers.get(index).getMajor();
-//        return result;
-//    }
+    public String toString(int index) {
+        String result = "name: " + listOfUsers.get(index).getName()
+                + "\nEmail: " + listOfUsers.get(index).getEmail()
+                + "\nMajor: " + listOfUsers.get(index).getMajor();
+        return result;
+    }
 
     //get the user index
 //    public int userView(User user) {
