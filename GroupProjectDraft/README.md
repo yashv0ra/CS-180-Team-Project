@@ -42,6 +42,13 @@ also has a User parameter named "whichUser". The two methods add and delete mess
 two Profile parameters which are named "A" and "B". The isRestricted method will check if a user is restricted by 
 another user. The test case throws an InvalidInputException if an invalid input is added to a User object.
 
+The DatabaseInterface class contains 7 methods. The first four are a boolean method named login, with String parameters 
+"email" and "password", two User Array List methods named usersMajorSearch with a String parameter named "major" and 
+usersNameSearch with a String parameter named "name", and a User method named usersEmailSearch with a String parameter
+named "email". The next two are two boolean methods both named modifyUser with User parameters named "aimUser" and
+"changed" for one method and a User Array List parameter named "usersNeedToBeChanged", as well as a User Array List
+parameter named "changed" for the other. The final method is a String method named toString with an Int parameter named "index".
+
 The Database class contains 1 field: An User ArrayList named "listOfUsers". Database also contains a Database constructor, a
 Boolean method named "login", a User ArrayList named "usersMajorSearch", a User ArrayList named "usersNameSearch", 
 a User ArrayList named "usersEmailSearch", two Boolean methods named "ModifyUser" and a String method named "toString".
