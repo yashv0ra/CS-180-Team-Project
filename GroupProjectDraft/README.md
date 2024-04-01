@@ -45,10 +45,25 @@ Each setter has a string parameter which are named "name", "password", "email", 
 a boolean method named "compareTo" with a User parameter named "user" and a boolean method named "modifyUser" with a User parameter 
 named "user".
 
-The User class contains 4 String fields named "name", "password", "email", and "major". The User class also has a User constructor which
-uses the four class fields. There is also a User constructor which creates a new User object and sets all four variables to null. The rest of
-the class is comprised of methods already mentioned in the UserInterface class description. The four getters return their respective variables
-and the four setter methods set the value of those same four variables. Additionally, the compareTo method compares the emails of two users.
+The User class contains 4 String fields named "name", "password", "email", and "major" and also has 3 Array Lists and 
+a boolean. Two of the Array Lists are User Array Lists named "friendsList" and "blockedList" while the third is a Chat 
+Array List named "chatList". The boolean field is named "restrictMessage". The User class also has a User constructor 
+which uses the eight class fields and checks for all variables being valid and not being null. There is also a User 
+constructor which creates a new User object and sets all eight variables to an empty string, false, or null. There are 
+also four void methods named addFriend, removeFriend, blockUser, and unblockUser which all have the single User parameter 
+of user. The addFriend method adds friends to the friendList and the removeFriend method removes friends from the friendList
+and the blockedList. The blockUser method adds users to the blockedList and removes them from the friendList while the
+unblockUser method removes users from the blockedList. There is also a void method named "changeRestriction" in which
+the restriction is flipped from true to false and vice versa. There is also a boolean method named "canMessage" with a
+User parameter named "A". The method checks the friend status and restriction status between two users to see if a user
+can message the other user. There is also a boolean method named  "isBlocked" with a User parameter "A" which checks to 
+see if a user has blocked another user and vice versa. There are an additional four getter and setter for the aforementioned
+methods. "getFriendsList", "getBlockedList", "getChatList", and "isRestrictMessage" all return their respective variables 
+which are friendsList, blockedList, chatList, and restrictMessage. "setFriendsList", "setBlockedList", "setChatList", and
+"setRestrictMessage" all set the values of the four aforementioned variables from the getter methods. The rest of the class 
+is comprised of methods already mentioned in the UserInterface class description. The four getters return their respective 
+variables and the four setter methods set the value of those same four variables. Additionally, the compareTo method 
+compares the emails of two users.
 
 The ImpossibleChangeException class contains a ImpossibleChangeException constructor with a String paramater named "message".
 The constructor returns a message whenever an ImpossibleChangeException is thrown.
