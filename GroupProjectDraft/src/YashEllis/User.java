@@ -12,7 +12,7 @@ import java.util.Objects;
 public class User {
     private String name;
     private String password;
-    private String email;
+    private final String email;
     private String major;
     public ArrayList<User> friendsList;
     public ArrayList<User> blockedList;
@@ -183,10 +183,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public void setPassword(String password) {
