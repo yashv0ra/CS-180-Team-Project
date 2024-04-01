@@ -101,3 +101,6 @@ BLANK submitted phase 1 on Brightspace.
 BLANK submitted phase 1 on Vocareum.
 
 Compiling and Running:
+
+The entire program uses methods and test cases to run through itself and if the program passes all the test cases and has no
+errors, it will compile and return output based on what options were selected. The program should be able to preform many functions without crashing such as adding and removing friends, blocking or restricting users, unblocking and restricting users, adding and deleting messages, and modifying users. 
