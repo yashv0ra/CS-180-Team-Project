@@ -35,7 +35,8 @@ The three search methods each have a String named "login", "name", and "email" r
 their respective String(ex: usersNameSearch searches for name). The first of the two ModifyUser methods has two User parameters named 
 "aimUser" and "changed". This method changes the information of the user. The second ModifyUser method has two User ArrayList parameters
 named "usersNeedToBeChanged" and "changed" and also throws an ImpossibleChangeException. This method changes a UserArray list. The
-toString method has an Int parameter named index and the method prints the toString of the Database class.
+toString method has an Int parameter named index and the method prints the toString of the Database class. The Database class additionally 
+has a test case which tests for inputs for new User objects and throws an InvalidInputException if an invalid input is entered.
 
 The UserInterface class contains 10 methods all for the User class. The first 4 are String getter methods named "getName", "getPassword",
 "getEmail", and "getMajor". Each of these methods gets one of the four User parameters being name, password, email, and major. 
