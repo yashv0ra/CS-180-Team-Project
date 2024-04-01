@@ -97,8 +97,7 @@ The constructor returns a message whenever an InvalidInputException is thrown.
 
 Group Submissions:
 
-BLANK submitted phase 1 on Brightspace.
-BLANK submitted phase 1 on Vocareum.
+Yash submitted phase 1 on Vocareum.
 
 Compiling and Running:
 
