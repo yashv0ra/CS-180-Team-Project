@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 /**
  * The central database for all of the users.
@@ -9,15 +12,19 @@ import java.util.ArrayList;
  */
 public class Database {
     private ArrayList<User> listOfUsers;
+    private ServerSocket serverSocket;
+    private Socket socket;
+    private MainThread mainThread;
+    private ArrayList<Thread> clientThreads;
 
     public Database(ArrayList<User> listOfUsers) {
         this.listOfUsers = listOfUsers;
     }
 
-    public boolean login(String email, String password) {
+    public boolean login(String email, int password) {
         for (int i = 0; i < listOfUsers.size(); i++) {
             if (listOfUsers.get(i).getEmail().equals(email)) {
-                return listOfUsers.get(i).getPassword().equals(password);
+                return listOfUsers.get(i).getPassword() == password;
             }
         }
         return false;
@@ -105,4 +112,16 @@ public class Database {
         }
         return true;
     }
+
+    public void startNewServer(int portNum) {
+        mainThread = new MainThread(portNum);
+        serverSocket = mainThread.getServerSocket();
+    }
+
+    public void startNewClient(String host, int port) {
+        ClientThread ct = new ClientThread(host, port, serverSocket);
+        clientThreads.add(ct);
+    }
+
+
 }
