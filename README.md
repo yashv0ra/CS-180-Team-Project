@@ -1,4 +1,4 @@
-Class Overview:
+# Class Overview:
 
 This project contains 8 classes named ChatInterface.java, Chat.java, DatabaseInterface.java, Database.java, UserInterface.java, User.java, 
 ImpossibleChangeException.java, and InvalidInputException.java.
