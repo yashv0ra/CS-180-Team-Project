@@ -82,10 +82,12 @@ can message the other user. There is also a boolean method named  "blocked" with
 see if a user has blocked another user and vice versa. There are an additional four getter and setter for the aforementioned
 methods. "getFriendsList", "getBlockedList", "getChatList", and "isRestrictMessage" all return their respective variables 
 which are friendsList, blockedList, chatList, and restrictMessage. "setFriendsList", "setBlockedList", "setChatList", and
-"setRestrictMessage" all set the values of the four aforementioned variables from the getter methods. The rest of the class 
-is comprised of methods already mentioned in the UserInterface class description. The four getters return their respective 
-variables and the four setter methods set the value of those same four variables. Additionally, the compareTo method 
-compares the emails of two users.
+"setRestrictMessage" all set the values of the four aforementioned variables from the getter methods. Another method in this
+is called writeToFile which has a parameter of User user. The writeToFile method clears all information for a user's profile
+from a file and then writes in all the updated information. So if a user changed their name, it would rewrite the entire file
+now with the updated name while the rest of the information is the same. The rest of the class is comprised of methods already 
+mentioned in the UserInterface class description. The four getters return their respective variables and the four setter 
+methods set the value of those same four variables. Additionally, the compareTo method compares the emails of two users.
 
 The **ImpossibleChangeException** class contains a ImpossibleChangeException constructor with a String paramater named "message".
 The constructor returns a message whenever an ImpossibleChangeException is thrown.
@@ -102,7 +104,7 @@ an email and password for a user already exist in the system. After logging in, 
 picking a user to talk to and send messages to, searching for, adding, removing, blocking, or unblocking a friend, 
 changing a restriction placed on another user, or exiting the system.
 
-The **ClientThread** class contains four fields: a ServerSocket named serverSocket, a String named host, an int named port,
+The **ClientThread** class contains three fields: a String named host, an int named port,
 and a Socket named socket. There is also a ClientThread constructor which sets the host, port, and socket variables. The
 class also contains a void run method which allows the client to connect to the server. Finally, the socket variable has a 
 getter method named getSocket.
