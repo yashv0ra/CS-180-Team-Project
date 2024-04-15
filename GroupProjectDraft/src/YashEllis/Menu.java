@@ -141,19 +141,38 @@ public class Menu {
         //Write new data to file either now or at end of program
         //Show Options to exit(4), modify user information(3), search for users(2), or chat(1)
         int choice = 0;
+        int option1Choice = 0;
+        int option2Choice = 0;
+        int option3Choice = 0;
         do {
             choice = scanner.nextInt();
             if (choice == 1) {
                 user.canMessage(user);
                 //allow user to pick who to talk to and allow them to send messages
             } else if (choice == 2) {
-                data.usersNameSearch(user.getName());
-                data.usersMajorSearch(user.getMajor());
-                data.usersEmailSearch(user.getEmail());
-                user.addFriend(user);
-                user.removeFriend(user);
-                user.blockUser(user);
-                user.unblockUser(user);
+                option2Choice = scanner.nextInt();
+                
+                if (option2Choice == 1) {
+                    data.usersNameSearch(user.getName());
+                }
+                else if (option2Choice == 2) {
+                    data.usersMajorSearch(user.getMajor());
+                }
+                else if (option2Choice == 3) {
+                    data.usersEmailSearch(user.getEmail());
+                }
+                else if (option2Choice == 4) {
+                    user.addFriend(user);
+                }
+                else if (option2Choice == 5) {
+                    user.removeFriend(user);
+                }
+                else if (option2Choice == 6) {
+                    user.blockUser(user);
+                }
+                else if (option2Choice == 7) {
+                    user.unblockUser(user);
+                }
                 //allow user to search for others based on major, name, or email and add, remove, or block people
             } else if (choice == 3) {
                 //data.modifyUser(); needs to be void?
