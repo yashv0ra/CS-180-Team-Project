@@ -119,7 +119,7 @@ public class Database {
     }
 
     public void startNewClient(String host, int port) {
-        ClientThread ct = new ClientThread(host, port, serverSocket);
+        ClientThread ct = new ClientThread(host, port);
         clientThreads.add(ct);
     }
 
