@@ -1,6 +1,5 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,7 +7,7 @@ public class Menu {
     public static void main(String[] args) throws IOException, InvalidInputException {
         ArrayList<User> userlist = new ArrayList<>();
         Database data = new Database(userlist);
-        User user = new User();
+        // User user = new User();
         Scanner scanner = new Scanner(System.in);
         String emailInput = "";
         String passwordInput = "";
@@ -46,7 +45,7 @@ public class Menu {
             }
         }
         //Insert Welcome page with option to login or sign up and based on user choice, change account value
-        int account = 0; // 1 when user wants to log in, 2 when user wants to sign in, and 3 when user wants to exit
+        int account = 0; // 1 when user wants to log in, 2 when user wants to sign up, and 3 when user wants to exit
         boolean validUser = false; //turns true when user is logged in/ signed up
         do {
             if (account == 1) {
@@ -67,9 +66,9 @@ public class Menu {
                 //Let user input both
                 if (!email.contains(emailInput)) {
                     if (emailInput.contains("@") && !emailInput.contains(" ") && !passwordInput.isEmpty()) {
-                        String[] emailElements = emailInput.split("@");
-                        if (emailElements.length == 2 && !emailElements[0].isEmpty()
-                                && emailElements[1].equals("purdue.edu")) {
+                        //String[] emailElements = emailInput.split("@");
+                        //if (emailElements.length == 2 && !emailElements[0].isEmpty()
+                               // && emailElements[1].equals("purdue.edu")) {
                             email.add(emailInput);
                             password.add(passwordInput);
                             //Synchronize the two things above
@@ -86,7 +85,7 @@ public class Menu {
                     }
                     //Provide user options to retry, log in, or end program and update account accordingly
                 }
-            }
+            //}
         } while (!validUser);
         //User data format (each user has their own file with their respective data)
 
@@ -119,18 +118,18 @@ public class Menu {
         String[] friendString = userData.get(3).substring(7).split(",");
         String[] blockedString = userData.get(4).substring(7).split(",");
         if(!friendString[0].equals("Empty")) {
-            for(int i = 0; i < friendString.length; i ++) {
+            for(int i = 0; i < friendString.length; i++) {
                 friends.add(new User(friendString[i]));
-                chats.add(new Chat(emailInput.concat("_with_").concat(friendString[i])));
+                chats.add(new Chat(new User(emailInput), new User(friendString[i])));
                 //create constructor for users based on info in file
                 //do the same for chats based on chat files
                 //this for loop will initialize a list of users and corresponding chats
             }
         }
         if(!blockedString[0].equals("Empty")) {
-            for(int i = 0; i < blockedString.length; i ++) {
+            for(int i = 0; i < blockedString.length; i++) {
                 blocked.add(new User(blockedString[i]));
-                chats.add(new Chat(emailInput.concat("_with_").concat(blockedString[i])));
+                chats.add(new Chat(new User(emailInput), new User(blockedString[i])));
                 //create constructor for users based on info in file
                 //do the same for chats based on chat files
                 //this for loop will initialize a list of users and corresponding chats
@@ -151,7 +150,7 @@ public class Menu {
                 //allow user to pick who to talk to and allow them to send messages
             } else if (choice == 2) {
                 option2Choice = scanner.nextInt();
-                
+
                 if (option2Choice == 1) {
                     data.usersNameSearch(user.getName());
                 }
