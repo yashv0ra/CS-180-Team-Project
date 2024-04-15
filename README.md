@@ -122,4 +122,4 @@ tbd submitted phase 2 on Vocareum.
 ## Compiling and Running:
 
 The entire program uses methods and test cases to run through itself and if the program passes all the test cases and has no
-errors, it will compile and return output based on what options were selected. The program should be able to perform many functions without crashing such as adding and removing friends, blocking or unblocking users, restricting and unrestricting users, adding and deleting messages, modifying users, connecting the client and to the server, and allowing the user to navigate the program. 
+errors, it will compile and return output based on what options were selected. The program should be able to perform many functions without crashing such as adding and removing friends, blocking or unblocking users, restricting and unrestricting users, adding and deleting messages, modifying users, connecting the client and to the server, and allowing the user to navigate the program. We tested the program by running it and debugging.
