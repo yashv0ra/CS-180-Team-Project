@@ -21,10 +21,10 @@ public class Database {
         this.listOfUsers = listOfUsers;
     }
 
-    public boolean login(String email, int password) {
+    public boolean login(String email, String password) {
         for (int i = 0; i < listOfUsers.size(); i++) {
             if (listOfUsers.get(i).getEmail().equals(email)) {
-                return listOfUsers.get(i).getPassword() == password;
+                return listOfUsers.get(i).getPassword().equals(password);
             }
         }
         return false;
