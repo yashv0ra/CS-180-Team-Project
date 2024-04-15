@@ -1,5 +1,11 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
 /**
  * An interface for accessing the User class
@@ -14,12 +20,12 @@ public class User {
     private String password;
     private String email;
     private String major;
-    public ArrayList<User> friendsList;
-    public ArrayList<User> blockedList;
+    public ArrayList<String> friendsList;
+    public ArrayList<String> blockedList;
     public ArrayList<Chat> chatList;
     boolean restrictMessage;
-    public User(String name, String password, String email, String major, ArrayList<User> friendsList,
-                   ArrayList<User> blockedList, ArrayList<Chat> chatList, boolean restrictMessage)
+    public User(String name, String password, String email, String major, ArrayList<String> friendsList,
+                   ArrayList<String> blockedList, ArrayList<Chat> chatList, boolean restrictMessage)
             throws InvalidInputException {
         //Checks for no empty contents
         if (name.isEmpty() || password.isEmpty() || email.isEmpty() || major.isEmpty()) {
@@ -67,27 +73,60 @@ public class User {
         this.blockedList = null;
         this.chatList = null;
     }
-    public void addFriend(User user) {
-        if (!friendsList.contains(user) && !blockedList.contains(user)) {
-            friendsList.add(user);
+    public User(String email) throws FileNotFoundException {
+        //edey@purdue.edu,DoubleDouble
+        //Zach
+        //Computer Science
+        //Friends:dngquan@purdue.edu,yash@purdue.edy,purduePete@purdue.edu...
+        //Blocked:Empty
+        //WhoCanMessage:friends
+        this.email = email;
+        try {
+            BufferedReader bfr = new BufferedReader(new FileReader(email));
+            String[] logindetails = bfr.readLine().split(","); // line1[0] is email and line1[1] = password
+            this.password = logindetails[1];
+            this.name = bfr.readLine();
+            this.major = bfr.readLine();
+            String friends = bfr.readLine().substring(8);
+            if (friends.equals("Empty")) {
+                this.friendsList = null;
+            } else {
+                String[] friends1 = friends.split(",");
+                this.friendsList.addAll(Arrays.asList(friends1));
+            }
+            String blocks = bfr.readLine().substring(8);
+            if (blocks.equals("Empty")) {
+                this.blockedList = null;
+            } else {
+                String[] blocks1 = blocks.split(",");
+                this.friendsList.addAll(Arrays.asList(blocks1));
+            }
+
+        } catch(IOException e) {
+
+        }
+    }
+    public void addFriend(User a) {
+        if (!friendsList.contains(a.getEmail()) && !blockedList.contains(a.getEmail())) {
+            friendsList.add(a.getEmail());
         }
     }
 
-    public void removeFriend(User user) {
-        friendsList.remove(user);
-        blockedList.remove(user);
+    public void removeFriend(User a) {
+        friendsList.remove(a.getEmail());
+        blockedList.remove(a.getEmail());
 
     }
 
-    public void blockUser(User user) {
-        if (!blockedList.contains(user)) {
-            blockedList.add(user);
+    public void blockUser(User a) {
+        if (!blockedList.contains(a.getEmail())) {
+            blockedList.add(a.getEmail());
         }
-        friendsList.remove(user);
+        friendsList.remove(a.getEmail());
     }
 
-    public void unblockUser(User user) {
-        blockedList.remove(user);
+    public void unblockUser(User a) {
+        blockedList.remove(a.getEmail());
     }
 
 //    public void checkChats() {
@@ -107,13 +146,13 @@ public class User {
         boolean friendCheck1 = false;
         boolean friendCheck2 = false;
         for (int i = 0; i < this.friendsList.size(); i++) {
-            if (this.friendsList.get(i).compareTo(a)) {
+            if (this.friendsList.get(i).equals(a.getEmail())) {
                 friendCheck1 = true;
                 break;
             }
         }
         for (int i = 0; i < a.friendsList.size(); i++) {
-            if (a.friendsList.get(i).compareTo(this)) {
+            if (a.friendsList.get(i).equals(a.getEmail())) {
                 friendCheck2 = true;
                 break;
             }
@@ -125,19 +164,19 @@ public class User {
         // and the other user is not your friend, then restrict
         return !a.isRestrictMessage() || friendCheck2;
     }
-    public boolean blocked(User a) {
+    public boolean blocked(String email) {
         for (int i = 0; i < this.blockedList.size(); i++) {
-            if (this.blockedList.get(i).compareTo(a)) {
+            if (this.blockedList.get(i).equals(email)) {
                 return true;
             }
         }
         return false;
     }
-    public ArrayList<User> getFriendsList() {
+    public ArrayList<String> getFriendsList() {
         return friendsList;
     }
 
-    public ArrayList<User> getBlockedList() {
+    public ArrayList<String> getBlockedList() {
         return blockedList;
     }
 
@@ -149,11 +188,11 @@ public class User {
         return restrictMessage;
     }
 
-    public void setFriendsList(ArrayList<User> friendsList) {
+    public void setFriendsList(ArrayList<String> friendsList) {
         this.friendsList = friendsList;
     }
 
-    public void setBlockedList(ArrayList<User> blockedList) {
+    public void setBlockedList(ArrayList<String> blockedList) {
         this.blockedList = blockedList;
     }
 
