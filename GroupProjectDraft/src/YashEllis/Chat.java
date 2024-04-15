@@ -1,6 +1,13 @@
 import java.io.*;
 import java.util.ArrayList;
-
+/**
+ * The class for accessing and editing the chat file between 2 users.
+ *
+ * Purdue University -- CS18000 -- Spring 2024 -- Team Project Phase 1
+ *
+ * @author Yash Vora, Ellis Sioukas, Zack Wang, Jad Karaki
+ * @version April 1, 2024
+ */
 public class Chat {
     private ArrayList<String> messages;
     private ArrayList<User> whoSentTheMessage;
@@ -14,6 +21,7 @@ public class Chat {
             this.user1 = user1;
             this.user2 = user2;
             fileNameForTheTwoUser = user1.getEmail() + "_with_" + user2.getEmail();
+            // the below line clears the file, which is a problem right now
             PrintWriter pw = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser)));
             pw1 = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser), true));
             pw1.println("Chat between " + user1.getEmail() + " & " + user2.getEmail());
@@ -26,7 +34,7 @@ public class Chat {
 
     public synchronized boolean addAMessage(String message, User whichUser) {
         try {
-            if (user1.blocked(user2) || user2.blocked(user1)) {
+            if (user1.blocked(user2.getEmail()) || user2.blocked(user1.getEmail())) {
                 pw1.println("<Blocked Message>");
                 pw1.flush();
             } else if (!user1.canMessage(user2) || !user2.canMessage(user1)) {
