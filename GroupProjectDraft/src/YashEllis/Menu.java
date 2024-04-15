@@ -112,23 +112,23 @@ public class Menu {
             userData.add(l);
             l = bfr.readLine();
         }
-        ArrayList<User> friends = new ArrayList<>();
-        ArrayList<User> blocked = new ArrayList<>();
+        ArrayList<String> friends = new ArrayList<>();
+        ArrayList<String> blocked = new ArrayList<>();
         ArrayList<Chat> chats = new ArrayList<>();
         String[] friendString = userData.get(3).substring(7).split(",");
         String[] blockedString = userData.get(4).substring(7).split(",");
-        if(!friendString[0].equals("Empty")) {
+        if (!friendString[0].equals("Empty")) {
             for(int i = 0; i < friendString.length; i++) {
-                friends.add(new User(friendString[i]));
+                friends.add(friendString[i]);
                 chats.add(new Chat(new User(emailInput), new User(friendString[i])));
                 //create constructor for users based on info in file
                 //do the same for chats based on chat files
                 //this for loop will initialize a list of users and corresponding chats
             }
         }
-        if(!blockedString[0].equals("Empty")) {
+        if (!blockedString[0].equals("Empty")) {
             for(int i = 0; i < blockedString.length; i++) {
-                blocked.add(new User(blockedString[i]));
+                blocked.add(blockedString[i]);
                 chats.add(new Chat(new User(emailInput), new User(blockedString[i])));
                 //create constructor for users based on info in file
                 //do the same for chats based on chat files
@@ -149,21 +149,16 @@ public class Menu {
                 user.canMessage(user);
                 //allow user to pick who to talk to and allow them to send messages
             } else if (choice == 2) {
-                //option2Choice = scanner.nextInt();
+                option2Choice = scanner.nextInt();
+
                 if (option2Choice == 1) {
-                    String nameFind = "";
-                    nameFind = scanner.nextLine();
-                    data.usersNameSearch(nameFind);
+                    data.usersNameSearch(user.getName());
                 }
                 else if (option2Choice == 2) {
-                    String majorFind = "";
-                    majorFind = scanner.nextLine();
-                    data.usersMajorSearch(majorFind);
+                    data.usersMajorSearch(user.getMajor());
                 }
                 else if (option2Choice == 3) {
-                    String emailFind = "";
-                    emailFind = scanner.nextLine();
-                    data.usersEmailSearch(emailFind);
+                    data.usersEmailSearch(user.getEmail());
                 }
                 else if (option2Choice == 4) {
                     user.addFriend(user);
