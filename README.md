@@ -119,7 +119,7 @@ to start. Finally, the serverSocket variable has a getter method named getServer
 ## Group Submissions:
 
 Yash submitted phase 1 on Vocareum.
-tbd submitted phase 2 on Vocareum.
+Yash submitted phase 2 on Vocareum.
 
 ## Compiling and Running:
 
