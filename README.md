@@ -3,15 +3,15 @@
 This project contains 8 classes named ChatInterface.java, Chat.java, DatabaseInterface.java, Database.java, UserInterface.java, User.java, 
 ImpossibleChangeException.java, and InvalidInputException.java.
 
-1. The ChatInterface class will contatin all methods for the Chat class.
-2. The Chat class will contain fields and methods representing messages and messaging between two users. 
-3. The DatabaseInterface class will contatin all methods for the Database class.
-4. The Database class will contain methods and fields related to users including how to modify a user,
+- The ChatInterface class will contatin all methods for the Chat class.
+- The Chat class will contain fields and methods representing messages and messaging between two users. 
+- The DatabaseInterface class will contatin all methods for the Database class.
+- The Database class will contain methods and fields related to users including how to modify a user,
    search up a user, and email and password info.
-5. The UserInterface class will contatin all methods for the User class.
-6. The User class will contain fields and methods relating to user info and comparing two users.
-7. ImpossibleChangeException is a custom Exception for when an invalid change is being made.
-8. InvalidInputException is a custom Exception for when an invalid input is being inputted.
+- The UserInterface class will contatin all methods for the User class.
+- The User class will contain fields and methods relating to user info and comparing two users.
+- ImpossibleChangeException is a custom Exception for when an invalid change is being made.
+- InvalidInputException is a custom Exception for when an invalid input is being inputted.
 
 
 Class Descriptions:
