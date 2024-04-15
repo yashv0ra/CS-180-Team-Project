@@ -149,22 +149,16 @@ public class Menu {
                 user.canMessage(user);
                 //allow user to pick who to talk to and allow them to send messages
             } else if (choice == 2) {
-                //option2Choice = scanner.nextInt();
+                option2Choice = scanner.nextInt();
 
                 if (option2Choice == 1) {
-                    String nameFind = "";
-                    nameFind = scanner.nextLine();
-                    data.usersNameSearch(nameFind);
+                    data.usersNameSearch(user.getName());
                 }
                 else if (option2Choice == 2) {
-                    String majorFind = "";
-                    majorFind = scanner.nextLine();
-                    data.usersMajorSearch(majorFind);
+                    data.usersMajorSearch(user.getMajor());
                 }
                 else if (option2Choice == 3) {
-                    String emailFind = "";
-                    emailFind = scanner.nextLine();
-                    data.usersEmailSearch(emailFind);
+                    data.usersEmailSearch(user.getEmail());
                 }
                 else if (option2Choice == 4) {
                     String addFriendFind = "";
@@ -185,10 +179,7 @@ public class Menu {
                     user.blockUser(x);
                 }
                 else if (option2Choice == 7) {
-                    String unblockFriendFind = "";
-                    unblockFriendFind = scanner.nextLine();
-                    User x = new User(unblockFriendFind);
-                    user.unblockUser(x);
+                    user.unblockUser(user);
                 }
                 //allow user to search for others based on major, name, or email and add, remove, or block people
             } else if (choice == 3) {
