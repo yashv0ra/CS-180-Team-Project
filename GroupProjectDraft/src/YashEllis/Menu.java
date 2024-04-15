@@ -149,28 +149,46 @@ public class Menu {
                 user.canMessage(user);
                 //allow user to pick who to talk to and allow them to send messages
             } else if (choice == 2) {
-                option2Choice = scanner.nextInt();
+                //option2Choice = scanner.nextInt();
 
                 if (option2Choice == 1) {
-                    data.usersNameSearch(user.getName());
+                    String nameFind = "";
+                    nameFind = scanner.nextLine();
+                    data.usersNameSearch(nameFind);
                 }
                 else if (option2Choice == 2) {
-                    data.usersMajorSearch(user.getMajor());
+                    String majorFind = "";
+                    majorFind = scanner.nextLine();
+                    data.usersMajorSearch(majorFind);
                 }
                 else if (option2Choice == 3) {
-                    data.usersEmailSearch(user.getEmail());
+                    String emailFind = "";
+                    emailFind = scanner.nextLine();
+                    data.usersEmailSearch(emailFind);
                 }
                 else if (option2Choice == 4) {
-                    user.addFriend(user);
+                    String addFriendFind = "";
+                    addFriendFind = scanner.nextLine();
+                    User x = new User(addFriendFind);
+                    user.addFriend(x);
                 }
                 else if (option2Choice == 5) {
-                    user.removeFriend(user);
+                    String removeFriendFind = "";
+                    removeFriendFind = scanner.nextLine();
+                    User x = new User(removeFriendFind);
+                    user.removeFriend(x);
                 }
                 else if (option2Choice == 6) {
-                    user.blockUser(user);
+                    String blockFriendFind = "";
+                    blockFriendFind = scanner.nextLine();
+                    User x = new User(blockFriendFind);
+                    user.blockUser(x);
                 }
                 else if (option2Choice == 7) {
-                    user.unblockUser(user);
+                    String unblockFriendFind = "";
+                    unblockFriendFind = scanner.nextLine();
+                    User x = new User(unblockFriendFind);
+                    user.unblockUser(x);
                 }
                 //allow user to search for others based on major, name, or email and add, remove, or block people
             } else if (choice == 3) {
