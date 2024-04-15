@@ -6,6 +6,9 @@ import java.util.Scanner;
 
 public class Menu {
     public static void main(String[] args) throws IOException, InvalidInputException {
+        ArrayList<User> userlist = new ArrayList<>();
+        Database data = new Database(userlist);
+        User user = new User();
         Scanner scanner = new Scanner(System.in);
         String emailInput = "";
         String passwordInput = "";
@@ -138,15 +141,25 @@ public class Menu {
         //Write new data to file either now or at end of program
         //Show Options to exit(4), modify user information(3), search for users(2), or chat(1)
         int choice = 0;
-        if(choice == 1) {
-            //allow user to pick who to talk to and allow them to send messages
-        } else if(choice == 2) {
-            //allow user to search for others based on major, name, or email and add, remove, or block people
-        } else if(choice == 3) {
-            //allow user to modify name, message restriction, or password
-        } else if(choice == 4) {
-            //Exit without ending server
-        }
-
+        do {
+            choice = scanner.nextInt();
+            if (choice == 1) {
+                user.canMessage(user);
+                //allow user to pick who to talk to and allow them to send messages
+            } else if (choice == 2) {
+                data.usersNameSearch(user.getName());
+                data.usersMajorSearch(user.getMajor());
+                data.usersEmailSearch(user.getEmail());
+                user.addFriend(user);
+                user.removeFriend(user);
+                user.blockUser(user);
+                user.unblockUser(user);
+                //allow user to search for others based on major, name, or email and add, remove, or block people
+            } else if (choice == 3) {
+                //data.modifyUser(); needs to be void?
+                user.changeRestriction();
+                //allow user to modify name, message restriction, or password
+            }
+        } while (!(choice == 4));
     }
 }
