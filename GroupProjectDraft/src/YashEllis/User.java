@@ -73,7 +73,7 @@ public class User {
         this.blockedList = null;
         this.chatList = null;
     }
-    public User(String email) throws FileNotFoundException {
+    public User(String email) throws InvalidInputException {
         //edey@purdue.edu,DoubleDouble
         //Zach
         //Computer Science
@@ -101,8 +101,15 @@ public class User {
                 String[] blocks1 = blocks.split(",");
                 this.friendsList.addAll(Arrays.asList(blocks1));
             }
+            String[] lastline = bfr.readLine().split(":");
+            if (lastline[1].equals("all")) {
+                this.restrictMessage = false;
+            } else if (lastline[1].equals("friends")) {
+                this.restrictMessage = true;
+            }
 
         } catch(IOException e) {
+            throw new InvalidInputException("Invalid Input!");
 
         }
     }
