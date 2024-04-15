@@ -149,16 +149,21 @@ public class Menu {
                 user.canMessage(user);
                 //allow user to pick who to talk to and allow them to send messages
             } else if (choice == 2) {
-                option2Choice = scanner.nextInt();
-
+                //option2Choice = scanner.nextInt();
                 if (option2Choice == 1) {
-                    data.usersNameSearch(user.getName());
+                    String nameFind = "";
+                    nameFind = scanner.nextLine();
+                    data.usersNameSearch(nameFind);
                 }
                 else if (option2Choice == 2) {
-                    data.usersMajorSearch(user.getMajor());
+                    String majorFind = "";
+                    majorFind = scanner.nextLine();
+                    data.usersMajorSearch(majorFind);
                 }
                 else if (option2Choice == 3) {
-                    data.usersEmailSearch(user.getEmail());
+                    String emailFind = "";
+                    emailFind = scanner.nextLine();
+                    data.usersEmailSearch(emailFind);
                 }
                 else if (option2Choice == 4) {
                     user.addFriend(user);
