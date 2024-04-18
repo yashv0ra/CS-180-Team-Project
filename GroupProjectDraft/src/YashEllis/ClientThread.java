@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,6 +27,7 @@ public class ClientThread extends Thread {
             writer.write("Connection Established");
             writer.flush();
             Menu menu = new Menu();
+            SwingUtilities.invokeLater(new UserGUI(reader));
             menu.runClient(reader, writer);
         } catch (Exception e) {
             return;
