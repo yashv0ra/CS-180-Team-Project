@@ -1,13 +1,12 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
-    public static void main(String[] args) throws IOException, InvalidInputException {
+    public void runClient(BufferedReader r, PrintWriter w) throws IOException, InvalidInputException {
         ArrayList<User> userlist = new ArrayList<>();
         Database data = new Database(userlist);
-        // User user = new User();
+        User user = new User();
         Scanner scanner = new Scanner(System.in);
         String emailInput = "";
         String passwordInput = "";
@@ -45,7 +44,7 @@ public class Menu {
             }
         }
         //Insert Welcome page with option to login or sign up and based on user choice, change account value
-        int account = 0; // 1 when user wants to log in, 2 when user wants to sign up, and 3 when user wants to exit
+        int account = 0; // 1 when user wants to log in, 2 when user wants to sign in, and 3 when user wants to exit
         boolean validUser = false; //turns true when user is logged in/ signed up
         do {
             if (account == 1) {
@@ -66,9 +65,9 @@ public class Menu {
                 //Let user input both
                 if (!email.contains(emailInput)) {
                     if (emailInput.contains("@") && !emailInput.contains(" ") && !passwordInput.isEmpty()) {
-                        //String[] emailElements = emailInput.split("@");
-                        //if (emailElements.length == 2 && !emailElements[0].isEmpty()
-                               // && emailElements[1].equals("purdue.edu")) {
+                        String[] emailElements = emailInput.split("@");
+                        if (emailElements.length == 2 && !emailElements[0].isEmpty()
+                                && emailElements[1].equals("purdue.edu")) {
                             email.add(emailInput);
                             password.add(passwordInput);
                             //Synchronize the two things above
@@ -85,7 +84,7 @@ public class Menu {
                     }
                     //Provide user options to retry, log in, or end program and update account accordingly
                 }
-            //}
+            }
         } while (!validUser);
         //User data format (each user has their own file with their respective data)
 
@@ -112,75 +111,49 @@ public class Menu {
             userData.add(l);
             l = bfr.readLine();
         }
-        ArrayList<String> friends = new ArrayList<>();
-        ArrayList<String> blocked = new ArrayList<>();
+        ArrayList<User> friends = new ArrayList<>();
+        ArrayList<User> blocked = new ArrayList<>();
         ArrayList<Chat> chats = new ArrayList<>();
         String[] friendString = userData.get(3).substring(7).split(",");
         String[] blockedString = userData.get(4).substring(7).split(",");
-        if (!friendString[0].equals("Empty")) {
-            for(int i = 0; i < friendString.length; i++) {
-                friends.add(friendString[i]);
-                chats.add(new Chat(new User(emailInput), new User(friendString[i])));
+        if(!friendString[0].equals("Empty")) {
+            for(int i = 0; i < friendString.length; i ++) {
+                friends.add(new User(friendString[i]));
+                chats.add(new Chat(emailInput.concat("_with_").concat(friendString[i])));
                 //create constructor for users based on info in file
                 //do the same for chats based on chat files
                 //this for loop will initialize a list of users and corresponding chats
             }
         }
-        if (!blockedString[0].equals("Empty")) {
-            for(int i = 0; i < blockedString.length; i++) {
-                blocked.add(blockedString[i]);
-                chats.add(new Chat(new User(emailInput), new User(blockedString[i])));
+        if(!blockedString[0].equals("Empty")) {
+            for(int i = 0; i < blockedString.length; i ++) {
+                blocked.add(new User(blockedString[i]));
+                chats.add(new Chat(emailInput.concat("_with_").concat(blockedString[i])));
                 //create constructor for users based on info in file
                 //do the same for chats based on chat files
                 //this for loop will initialize a list of users and corresponding chats
             }
         }
-        User user = new User(userData.get(1), passwordInput, emailInput, userData.get(2), friends,
+        user = new User(userData.get(1), passwordInput, emailInput, userData.get(2), friends,
                 blocked, chats, userData.get(5).split(":")[2].equals("friends"));
         //Write new data to file either now or at end of program
         //Show Options to exit(4), modify user information(3), search for users(2), or chat(1)
         int choice = 0;
-        int option1Choice = 0;
-        int option2Choice = 0;
-        int option3Choice = 0;
         do {
             choice = scanner.nextInt();
             if (choice == 1) {
                 user.canMessage(user);
                 //allow user to pick who to talk to and allow them to send messages
             } else if (choice == 2) {
-                option2Choice = scanner.nextInt();
-
-                if (option2Choice == 1) {
-                    data.usersNameSearch(user.getName());
-                }
-                else if (option2Choice == 2) {
-                    data.usersMajorSearch(user.getMajor());
-                }
-                else if (option2Choice == 3) {
-                    data.usersEmailSearch(user.getEmail());
-                }
-                else if (option2Choice == 4) {
-                    String addFriendFind = "";
-                    addFriendFind = scanner.nextLine();
-                    User x = new User(addFriendFind);
-                    user.addFriend(x);
-                }
-                else if (option2Choice == 5) {
-                    String removeFriendFind = "";
-                    removeFriendFind = scanner.nextLine();
-                    User x = new User(removeFriendFind);
-                    user.removeFriend(x);
-                }
-                else if (option2Choice == 6) {
-                    String blockFriendFind = "";
-                    blockFriendFind = scanner.nextLine();
-                    User x = new User(blockFriendFind);
-                    user.blockUser(x);
-                }
-                else if (option2Choice == 7) {
-                    user.unblockUser(user);
-                }
+                //search input is:
+                String searchInput = "";
+                data.usersNameSearch(user.getName());
+                data.usersMajorSearch(user.getMajor());
+                data.usersEmailSearch(user.getEmail());
+                user.addFriend(user);
+                user.removeFriend(user);
+                user.blockUser(user);
+                user.unblockUser(user);
                 //allow user to search for others based on major, name, or email and add, remove, or block people
             } else if (choice == 3) {
                 //data.modifyUser(); needs to be void?
