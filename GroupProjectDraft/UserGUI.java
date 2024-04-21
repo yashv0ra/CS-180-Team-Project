@@ -34,10 +34,10 @@ public class UserGUI implements Runnable{
 
     public UserGUI(BufferedReader bfr, PrintWriter pw) {
         //this is only for testing
-        //in real examples, currentUser and its friends, blocked and chats should be stored in client side
+        //in real examples, currentUser and its friends, blocked and chats should be also stored in client side
         //(messaging software can still see own data and even if there is no connection)
-        //also it decrease the level of complexity,
-        //or maybe we can store the results in both client and serve side, and update from time to time
+        //(also it decreases the level of complexity)
+        //and update from time to time
         ArrayList<String> fl = new ArrayList<>();
         ArrayList<String> bl = new ArrayList<>();
         fl.add("friend1@purdue.edu");
@@ -93,7 +93,7 @@ public class UserGUI implements Runnable{
         jFrame.setSize(600, 400);
         jFrame.setLocationRelativeTo(null);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jFrame.pack();
+//        jFrame.pack();
         jFrame.setVisible(true);
 
         //set the panel
@@ -133,11 +133,11 @@ public class UserGUI implements Runnable{
                     JOptionPane.showMessageDialog(null, "Please choose a user first", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 } else {
-                    System.out.println("sending: " + inputDialogue.getText() + " to " + implementingUserEmail);
-                    printWriter.write(implementingUserEmail);
-                    printWriter.flush();
-                    printWriter.write(inputDialogue.getText());
-                    printWriter.flush();
+                    System.out.println("sending: " + inputDialogue.getText() + " to " + implementingUserEmail + " , if possible.");
+//                    printWriter.write("[sending message command]" + implementingUserEmail + "[message]" + inputDialogue.getText());
+//                    printWriter.flush();
+                    //it is up to server side to check friendList and blockList to if the sending can work
+                    //if can just add the message to that specific file
                 }
             }
         }
@@ -149,7 +149,7 @@ public class UserGUI implements Runnable{
             if (e.getSource() == addOrRemoveButton) {
 
 
-                boolean operatedOnce = false; //ensure the add or remove process only happens one time
+                boolean operatedOnce = false; //ensure the "add or remove" process only happens one time
                 int confirm;
 
                 if (implementingUserEmail == null) {
@@ -161,7 +161,9 @@ public class UserGUI implements Runnable{
                             confirm = JOptionPane.showConfirmDialog(null, "This user is already your friend, do you want to remove friend" + aEmail + "?", "Remove friend",
                                     JOptionPane.YES_NO_OPTION);
                             if (confirm == JOptionPane.YES_OPTION) {
-                                currentUser.removeFriend(aEmail);
+                                currentUser.removeFriend(aEmail); //do not need
+//                                printWriter.write("[remove friend command]" + aEmail);
+//                                printWriter.flush();
                             }
                             operatedOnce = true;
                         }
@@ -169,7 +171,9 @@ public class UserGUI implements Runnable{
                     if (!operatedOnce) {
                         confirm = JOptionPane.showConfirmDialog(null, "This user is currently not your friend, do you sure want to add friend" + implementingUserEmail +"?", "Add friend",
                                 JOptionPane.YES_NO_OPTION);
-                        currentUser.addFriend(implementingUserEmail);
+                        currentUser.addFriend(implementingUserEmail); //do not need
+//                                printWriter.write("[add friend command]" + implementingUserEmail);
+//                                printWriter.flush();
                     }
                 }
 
@@ -196,7 +200,9 @@ public class UserGUI implements Runnable{
                             confirm = JOptionPane.showConfirmDialog(null, "This user is already blocked by you, do you want to unblock " + aEmail + "?", "Unblock user",
                                     JOptionPane.YES_NO_OPTION);
                             if (confirm == JOptionPane.YES_OPTION) {
-                                currentUser.unblockUser(aEmail);
+                                currentUser.unblockUser(aEmail); //do not need
+//                                printWriter.write("[unblock user command]" + aEmail);
+//                                printWriter.flush();
                             }
                             operatedOnce = true;
                         }
@@ -204,7 +210,9 @@ public class UserGUI implements Runnable{
                     if (!operatedOnce) {
                         confirm = JOptionPane.showConfirmDialog(null, "This user is currently not blocked by you, do you want to block" + implementingUserEmail +"?", "Block user",
                                 JOptionPane.YES_NO_OPTION);
-                        currentUser.blockUser(implementingUserEmail);
+                        currentUser.blockUser(implementingUserEmail); //do not need
+//                      printWriter.write("[block user command]" + implementingUserEmail);
+//                      printWriter.flush();
                     }
                 }
 
@@ -237,22 +245,23 @@ public class UserGUI implements Runnable{
                             JOptionPane.ERROR_MESSAGE);
                 } else {
                     System.out.println("searching names that contains " + searchUserText.getText());
-                    printWriter.write(searchUserText.getText());
-                    printWriter.flush();
+//                    printWriter.write(searchUserText.getText());
+//                    printWriter.flush();
                 }
 
                 String results;
+                //suppose the result of search "ch" is in a string separated by "/"
+                //String results = "Charles/Charlotte/Chelsea/Chase/Christopher/Chandler/Chad/Cheryl/Cheyenne/Churchill";
+                results = "Charles/Charlotte/Chelsea/Chase/Christopher/Chandler/Chad/Cheryl/Cheyenne/Churchill";
+                //
                 try {
 //                    results = bufferedReader.readLine();
-                    
-                    //suppose the result of search "ch" is in a string separated by "/"
-                    //String results = "Charles/Charlotte/Chelsea/Chase/Christopher/Chandler/Chad/Cheryl/Cheyenne/Churchill";
-                    results = "Charles/Charlotte/Chelsea/Chase/Christopher/Chandler/Chad/Cheryl/Cheyenne/Churchill";
-                    //
-                    
-                    searchUserResultsList = new JComboBox(results.split("/"));
+
+                    searchUserResultsList = new JComboBox<>(results.split("/"));
+
                 } catch (Exception ex) {
-                    //error occur when reading searching results
+                    ex.printStackTrace();
+                    //error occurs when reading searching results
                     searchUserResultsList = new JComboBox<>();
                 }
 
@@ -274,8 +283,25 @@ public class UserGUI implements Runnable{
         }
     };
 
+    //need a new actionListener for every button. when pressed, communicate with the server and make sure the
+    //data of the current user (friend list, blocklist) are the same
+    ActionListener refreshUserDataActionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            printWriter.write("[refreshing command]");
+            printWriter.flush();
 
+//            try {
+//                //implement the refreshing here
+//                //should refresh "currentUser"
+//                //should also refresh "friendList" JBox
+//            } catch (IOException ex) {
+//                //fail to refresh user data
+//                ex.printStackTrace();
+//            }
+        }
+    };
 
-
+    
 
 }
