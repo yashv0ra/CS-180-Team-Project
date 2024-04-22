@@ -9,26 +9,28 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class UserGUI implements Runnable{
-    User currentUser; //current user using the GUI
-    BufferedReader bufferedReader;
-    PrintWriter printWriter;
+    private User currentUser; //current user using the GUI
+    private BufferedReader bufferedReader;
+    private PrintWriter printWriter;
 
-    String implementingUserEmail;
+    private String implementingUserEmail;
 
     //left panel
-    JLabel userFriendListLabel;
-    JComboBox friendList;
-    
-    JComboBox searchUserResultsList;
-    JTextField searchUserText;
-    JButton searchButton;
-    
-    JButton addOrRemoveButton;
-    JButton blockOrUnblockButton;
+    private JLabel userFriendListLabel;
+    private JComboBox friendList;
+
+    private JComboBox searchUserResultsList;
+    private JTextField searchUserText;
+    private JButton searchButton;
+
+    private JButton addOrRemoveButton;
+    private JButton blockOrUnblockButton;
 
     //right panel
-    JTextField inputDialogue;
-    JButton sendMessageButton;
+    private JTextArea chatArea;
+    private JScrollPane scrollPane;
+    private JTextField inputDialogue;
+    private JButton sendMessageButton;
 
 
 
@@ -78,9 +80,14 @@ public class UserGUI implements Runnable{
         addOrRemoveButton.addActionListener(addOrRemoveButtonActionListener);
         blockOrUnblockButton = new JButton("BLOCK/UNBLOCK FRIEND");
         blockOrUnblockButton.addActionListener(blockOrUnblockButtonActionListener);
-        //send message
+        //send messages
+        chatArea = new JTextArea();
+        chatArea.setTabSize(100);
+        chatArea.setEditable(false);
+        scrollPane = new JScrollPane(chatArea);
+
         inputDialogue = new JTextField(20);
-        sendMessageButton = new JButton("send");
+        sendMessageButton = new JButton("Send");
         sendMessageButton.addActionListener(sendMessageActionListener);
 
     }
@@ -90,7 +97,7 @@ public class UserGUI implements Runnable{
     public void run() {
         //set the frame
         JFrame jFrame = new JFrame("messaging software");
-        jFrame.setSize(600, 400);
+        jFrame.setSize(1000, 400);
         jFrame.setLocationRelativeTo(null);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        jFrame.pack();
@@ -103,7 +110,9 @@ public class UserGUI implements Runnable{
         JPanel leftUpPanel = new JPanel();
         JPanel leftCenterPanel = new JPanel();
         JPanel leftDownPanel = new JPanel();
-        JPanel centerPanel = new JPanel();
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        JPanel centerCenterPanel = new JPanel(new BorderLayout());
+        JPanel centerDownPanel = new JPanel();
         //messaging page
         
         leftUpPanel.add(userFriendListLabel);
@@ -118,8 +127,13 @@ public class UserGUI implements Runnable{
         leftPanel.add(leftDownPanel);
         jPanel.add(leftPanel, BorderLayout.WEST);
 
-        centerPanel.add(inputDialogue);
-        centerPanel.add(sendMessageButton);
+
+        //chatArea is already in scrollPane
+        centerCenterPanel.add(scrollPane, BorderLayout.CENTER);
+        centerDownPanel.add(inputDialogue);
+        centerDownPanel.add(sendMessageButton);
+        centerPanel.add(centerCenterPanel, BorderLayout.CENTER);
+        centerPanel.add(centerDownPanel, BorderLayout.SOUTH);
         jPanel.add(centerPanel, BorderLayout.CENTER);
 
 
@@ -133,11 +147,18 @@ public class UserGUI implements Runnable{
                     JOptionPane.showMessageDialog(null, "Please choose a user first", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 } else {
-                    System.out.println("sending: " + inputDialogue.getText() + " to " + implementingUserEmail + " , if possible.");
+                    if (!inputDialogue.getText().isEmpty()) {
+                        System.out.println("sending: " + inputDialogue.getText() + " to " + implementingUserEmail + " , if possible.");
 //                    printWriter.write("[sending message command]" + implementingUserEmail + "[message]" + inputDialogue.getText());
 //                    printWriter.flush();
-                    //it is up to server side to check friendList and blockList to if the sending can work
-                    //if can just add the message to that specific file
+                        //it is up to server side to check friendList and blockList to if the sending can work
+                        //if can just add the message to that specific file
+                        chatArea.append("You: " + inputDialogue.getText() + "\n");
+                        inputDialogue.setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Cannot send empty sentence", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         }
@@ -302,6 +323,6 @@ public class UserGUI implements Runnable{
         }
     };
 
-    
+
 
 }
