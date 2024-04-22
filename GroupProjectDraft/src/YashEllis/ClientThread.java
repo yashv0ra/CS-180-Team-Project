@@ -18,18 +18,18 @@ public class ClientThread extends Thread {
         try {
             //socket = serverSocket.accept();
             try {
-                this.socket = new Socket(host, port);
+                this.socket = new Socket("localhost", 4243);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             PrintWriter writer = new PrintWriter(socket.getOutputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            writer.write("Connection Established");
-            writer.flush();
-            Menu menu = new Menu();
-            SwingUtilities.invokeLater(new UserGUI(reader));
-            menu.runClient(reader, writer);
+//            writer.write("Connection Established");
+//            writer.println();
+//            writer.flush();
+            SwingUtilities.invokeLater(new UserGUI(reader, writer));
         } catch (Exception e) {
+            System.out.println("Some exception");
             return;
         }
     }
@@ -38,11 +38,10 @@ public class ClientThread extends Thread {
     }
 
     public static void main(String[] args) {
-        Thread thread = new Thread(new ClientThread("localhost", 4242));
+        Thread thread = new Thread(new ClientThread("localhost", 4243));
         thread.start();
     }
 
 }
-
 
 
