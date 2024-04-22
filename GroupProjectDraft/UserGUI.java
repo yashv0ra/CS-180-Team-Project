@@ -6,6 +6,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 public class UserGUI implements Runnable{
@@ -28,6 +30,7 @@ public class UserGUI implements Runnable{
 
     //right panel
     private JTextArea chatArea;
+    private Map<String, String> conversations;
     private JScrollPane scrollPane;
     private JTextField inputDialogue;
     private JButton sendMessageButton;
@@ -74,8 +77,8 @@ public class UserGUI implements Runnable{
         searchUserText = new JTextField(10);
         searchButton = new JButton("Search a User");
         searchButton.addActionListener(searchButtonActionListener);
-        
-        
+
+
         addOrRemoveButton = new JButton("ADD/REMOVE FRIEND");
         addOrRemoveButton.addActionListener(addOrRemoveButtonActionListener);
         blockOrUnblockButton = new JButton("BLOCK/UNBLOCK FRIEND");
@@ -85,6 +88,7 @@ public class UserGUI implements Runnable{
         chatArea.setTabSize(100);
         chatArea.setEditable(false);
         scrollPane = new JScrollPane(chatArea);
+        conversations = new HashMap<>();
 
         inputDialogue = new JTextField(20);
         sendMessageButton = new JButton("Send");
@@ -114,7 +118,7 @@ public class UserGUI implements Runnable{
         JPanel centerCenterPanel = new JPanel(new BorderLayout());
         JPanel centerDownPanel = new JPanel();
         //messaging page
-        
+
         leftUpPanel.add(userFriendListLabel);
         leftUpPanel.add(friendList);
         leftCenterPanel.add(searchUserResultsList);
@@ -153,7 +157,10 @@ public class UserGUI implements Runnable{
 //                    printWriter.flush();
                         //it is up to server side to check friendList and blockList to if the sending can work
                         //if can just add the message to that specific file
-                        chatArea.append("You: " + inputDialogue.getText() + "\n");
+                        String conversation = conversations.getOrDefault(implementingUserEmail, "");
+                        conversation += "You: " + inputDialogue.getText() + "\n";
+                        conversations.put(implementingUserEmail, conversation);
+                        chatArea.setText(conversations.getOrDefault(implementingUserEmail, ""));
                         inputDialogue.setText("");
                     } else {
                         JOptionPane.showMessageDialog(null, "Cannot send empty sentence", "Error",
@@ -249,11 +256,15 @@ public class UserGUI implements Runnable{
 
 
                 implementingUserEmail = (String)friendList.getSelectedItem();
+                if (implementingUserEmail != null) {
+                    chatArea.setText(conversations.getOrDefault(implementingUserEmail, ""));
+                }
 
 
             }
         }
     };
+
 
     ActionListener searchButtonActionListener = new ActionListener() {
         @Override
@@ -290,7 +301,6 @@ public class UserGUI implements Runnable{
             }
         }
     };
-
     ActionListener searchUserResultListActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
