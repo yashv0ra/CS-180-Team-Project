@@ -20,6 +20,7 @@ public class UserGUI implements Runnable{
     //left panel
     private JLabel userFriendListLabel;
     private JComboBox friendList;
+    private JButton showFriendDetail;
 
     private JComboBox searchUserResultsList;
     private JTextField searchUserText;
@@ -71,6 +72,8 @@ public class UserGUI implements Runnable{
         }
         friendList = new JComboBox<>(friendListALL);
         friendList.addActionListener(friendListActionListener);
+        showFriendDetail = new JButton("Show Friend Detail");
+        showFriendDetail.addActionListener(showFriendDetailActionListener);
         //functions
         searchUserResultsList = new JComboBox<>();
         searchUserResultsList.addActionListener(searchUserResultListActionListener);
@@ -121,6 +124,7 @@ public class UserGUI implements Runnable{
 
         leftUpPanel.add(userFriendListLabel);
         leftUpPanel.add(friendList);
+        leftUpPanel.add(showFriendDetail);
         leftCenterPanel.add(searchUserResultsList);
         leftCenterPanel.add(searchUserText);
         leftCenterPanel.add(searchButton);
@@ -248,7 +252,6 @@ public class UserGUI implements Runnable{
             }
         }
     };
-
     ActionListener friendListActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -264,8 +267,6 @@ public class UserGUI implements Runnable{
             }
         }
     };
-
-
     ActionListener searchButtonActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -313,23 +314,42 @@ public class UserGUI implements Runnable{
             }
         }
     };
-
-    //need a new actionListener for every button. when pressed, communicate with the server and make sure the
-    //data of the current user (friend list, blocklist) are the same
-    ActionListener refreshUserDataActionListener = new ActionListener() {
+    ActionListener showFriendDetailActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            printWriter.write("[refreshing command]");
-            printWriter.flush();
 
-//            try {
-//                //implement the refreshing here
-//                //should refresh "currentUser"
-//                //should also refresh "friendList" JBox
-//            } catch (IOException ex) {
-//                //fail to refresh user data
-//                ex.printStackTrace();
-//            }
+
+            implementingUserEmail = (String)friendList.getSelectedItem();
+            if (implementingUserEmail != null) {
+                //for connecting, this part should be communicating with server and get the user information with implementingUserEmail
+//                printWriter.write("[show friend detail command]");
+//                printWriter.flush();
+//                printWriter.write(implementingUserEmail);
+//                printWriter.flush();
+
+                String detail;
+                String[] details = null;
+//                try {
+//                    detail = bufferedReader.readLine();
+//                    details = detail.split("/");
+//                } catch (IOException exception) {
+//                    details = null;
+//                }
+
+                if (details != null) {
+                    JOptionPane.showMessageDialog(null,
+                            "Name: " + details[0]
+                                    + "\nEmail: " + implementingUserEmail
+                                    + "\nMajor: ", "Detail Information",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "An error occurred when finding the friend's detail information, please try again later", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+
         }
     };
 
