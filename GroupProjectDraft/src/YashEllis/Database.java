@@ -114,7 +114,7 @@ public class Database {
     }
 
     public void startNewServer(int portNum) {
-        mainThread = new MainThread(portNum);
+        mainThread = new MainThread();
         serverSocket = mainThread.getServerSocket();
     }
 
