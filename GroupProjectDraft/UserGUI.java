@@ -35,6 +35,8 @@ public class UserGUI implements Runnable{
     private JScrollPane scrollPane;
     private JTextField inputDialogue;
     private JButton sendMessageButton;
+    private JButton deleteLastMessageButton;
+    private String withoutLastMessage;
 
 
 
@@ -96,6 +98,9 @@ public class UserGUI implements Runnable{
         inputDialogue = new JTextField(20);
         sendMessageButton = new JButton("Send");
         sendMessageButton.addActionListener(sendMessageActionListener);
+        deleteLastMessageButton = new JButton("Delete Last Message");
+        deleteLastMessageButton.addActionListener(deleteLastMessageActionListener);
+        withoutLastMessage = null;
 
     }
 
@@ -140,6 +145,7 @@ public class UserGUI implements Runnable{
         centerCenterPanel.add(scrollPane, BorderLayout.CENTER);
         centerDownPanel.add(inputDialogue);
         centerDownPanel.add(sendMessageButton);
+        centerDownPanel.add(deleteLastMessageButton);
         centerPanel.add(centerCenterPanel, BorderLayout.CENTER);
         centerPanel.add(centerDownPanel, BorderLayout.SOUTH);
         jPanel.add(centerPanel, BorderLayout.CENTER);
@@ -162,6 +168,9 @@ public class UserGUI implements Runnable{
                         //it is up to server side to check friendList and blockList to if the sending can work
                         //if can just add the message to that specific file
                         String conversation = conversations.getOrDefault(implementingUserEmail, "");
+                        if (!conversation.isEmpty()) {
+                            withoutLastMessage = conversation;
+                        }
                         conversation += "You: " + inputDialogue.getText() + "\n";
                         conversations.put(implementingUserEmail, conversation);
                         chatArea.setText(conversations.getOrDefault(implementingUserEmail, ""));
@@ -174,7 +183,19 @@ public class UserGUI implements Runnable{
             }
         }
     };
+    ActionListener deleteLastMessageActionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == deleteLastMessageButton) {
 
+
+                conversations.put(implementingUserEmail, withoutLastMessage);
+                chatArea.setText(conversations.getOrDefault(implementingUserEmail, ""));
+
+
+            }
+        }
+    };
     ActionListener addOrRemoveButtonActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -213,7 +234,6 @@ public class UserGUI implements Runnable{
             }
         }
     };
-
     ActionListener blockOrUnblockButtonActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -352,6 +372,7 @@ public class UserGUI implements Runnable{
 
         }
     };
+
 
 
 
