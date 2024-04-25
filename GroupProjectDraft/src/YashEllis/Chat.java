@@ -31,6 +31,21 @@ public class Chat {
             throw new InvalidInputException("Invalid Input");
         }
     }
+    public Chat(String filename) throws InvalidInputException {
+        try {
+            this.user1 = new User(filename.substring(0, filename.indexOf("_w")));
+            this.user2 = new User(filename.substring(filename.indexOf("_with_") + 6));
+            fileNameForTheTwoUser = filename;
+            // the below line clears the file, which is a problem right now
+            PrintWriter pw = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser)));
+            pw1 = new PrintWriter(new FileWriter(new File(fileNameForTheTwoUser), true));
+            pw1.println("Chat between " + user1.getEmail() + " & " + user2.getEmail());
+            messages = new ArrayList<>();
+            whoSentTheMessage = new ArrayList<>();
+        } catch (Exception e) {
+            throw new InvalidInputException("Invalid Input");
+        }
+    }
 
     public synchronized boolean addAMessage(String message, User whichUser) {
         try {
