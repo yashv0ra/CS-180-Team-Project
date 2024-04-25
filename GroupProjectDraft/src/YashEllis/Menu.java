@@ -12,7 +12,9 @@ public class Menu implements Runnable {
     public void run() {
         String confirmation = null;
         try {
-            confirmation = reader.readLine();
+            while (confirmation == null) {
+                confirmation = reader.readLine();
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -124,11 +126,6 @@ public class Menu implements Runnable {
         } catch (InvalidInputException r) {
 
         }
-
-        writer.write("Call UserGUI");
-        writer.println();
-        writer.flush();
-
         //User data format (each user has their own file with their respective data)
 
         //The file names would be jkaraki@purdue.edu and would be formatted as:
@@ -177,11 +174,27 @@ public class Menu implements Runnable {
                     //this for loop will initialize a list of users and corresponding chats
                 }
             }
+            for(String u: userData) {
+                System.out.println(u);
+            }
+            System.out.println(passwordInput);
+            System.out.println(emailInput);
+            System.out.println(friends);
+            System.out.println(blocked);
+            System.out.println(chats);
             user = new User(userData.get(1), passwordInput, emailInput, userData.get(2), friends,
-                    blocked, chats, userData.get(5).split(":")[2].equals("friends"));
+                    blocked, chats, userData.get(5).split(":")[1].equals("friends"));
             //Write new data to file either now or at end of program
             //Show Options to exit(4), modify user information(3), search for users(2), or chat(1)
             String choice = "";
+
+
+            writer.write("Call UserGUI");
+            writer.println();
+            writer.flush();
+            writer.write(user.getEmail());
+            writer.println();
+            writer.flush();
             do {
                 choice = reader.readLine();
                 if (choice.contains("[sending message command]")) {
