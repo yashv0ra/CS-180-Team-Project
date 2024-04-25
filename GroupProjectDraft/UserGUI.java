@@ -44,6 +44,7 @@ public class UserGUI implements Runnable{
         //(messaging software can still see own data and even if there is no connection)
         //(also it decreases the level of complexity)
         //and update from time to time
+
         ArrayList<String> fl = new ArrayList<>();
         ArrayList<String> bl = new ArrayList<>();
         fl.add("friend1@purdue.edu");
@@ -54,12 +55,15 @@ public class UserGUI implements Runnable{
         bl.add("blocked1@purdue.edu");
         bl.add("blocked2@purdue.edu");
         bl.add("someRandomPerson123@purdue.edu");
+
         try {
-            currentUser = new User("jkaraki@purdue.edu");
-        } catch (InvalidInputException e) {
+            String emailCurrentUser = bfr.readLine();
+            currentUser = new User(emailCurrentUser);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         //
+        System.out.println("Email from UserGUI: " + currentUser.getEmail());
 
         currentUser.setFriendsList(fl);
         currentUser.setBlockedList(bl);
