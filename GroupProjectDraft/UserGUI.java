@@ -38,8 +38,6 @@ public class UserGUI implements Runnable{
     private JButton deleteLastMessageButton;
     private String withoutLastMessage;
 
-
-
     public UserGUI(BufferedReader bfr, PrintWriter pw) {
         //this is only for testing
         //in real examples, currentUser and its friends, blocked and chats should be also stored in client side
@@ -56,7 +54,11 @@ public class UserGUI implements Runnable{
         bl.add("blocked1@purdue.edu");
         bl.add("blocked2@purdue.edu");
         bl.add("someRandomPerson123@purdue.edu");
-        currentUser = new User();
+        try {
+            currentUser = new User("jkaraki@purdue.edu");
+        } catch (InvalidInputException e) {
+            throw new RuntimeException(e);
+        }
         //
 
         currentUser.setFriendsList(fl);
@@ -98,10 +100,10 @@ public class UserGUI implements Runnable{
         inputDialogue = new JTextField(20);
         sendMessageButton = new JButton("Send");
         sendMessageButton.addActionListener(sendMessageActionListener);
+
         deleteLastMessageButton = new JButton("Delete Last Message");
         deleteLastMessageButton.addActionListener(deleteLastMessageActionListener);
         withoutLastMessage = null;
-
     }
 
 
@@ -163,14 +165,11 @@ public class UserGUI implements Runnable{
                 } else {
                     if (!inputDialogue.getText().isEmpty()) {
                         System.out.println("sending: " + inputDialogue.getText() + " to " + implementingUserEmail + " , if possible.");
-//                    printWriter.write("[sending message command]" + implementingUserEmail + "[message]" + inputDialogue.getText());
+//                    printWriter.write("[sending message command],,," + implementingUserEmail + ",,,[message],,," + inputDialogue.getText());
 //                    printWriter.flush();
                         //it is up to server side to check friendList and blockList to if the sending can work
                         //if can just add the message to that specific file
                         String conversation = conversations.getOrDefault(implementingUserEmail, "");
-                        if (!conversation.isEmpty()) {
-                            withoutLastMessage = conversation;
-                        }
                         conversation += "You: " + inputDialogue.getText() + "\n";
                         conversations.put(implementingUserEmail, conversation);
                         chatArea.setText(conversations.getOrDefault(implementingUserEmail, ""));
@@ -183,19 +182,7 @@ public class UserGUI implements Runnable{
             }
         }
     };
-    ActionListener deleteLastMessageActionListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == deleteLastMessageButton) {
 
-
-                conversations.put(implementingUserEmail, withoutLastMessage);
-                chatArea.setText(conversations.getOrDefault(implementingUserEmail, ""));
-
-
-            }
-        }
-    };
     ActionListener addOrRemoveButtonActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -234,6 +221,7 @@ public class UserGUI implements Runnable{
             }
         }
     };
+
     ActionListener blockOrUnblockButtonActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -334,6 +322,19 @@ public class UserGUI implements Runnable{
             }
         }
     };
+    ActionListener deleteLastMessageActionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == deleteLastMessageButton) {
+
+
+                conversations.put(implementingUserEmail, withoutLastMessage);
+                chatArea.setText(conversations.getOrDefault(implementingUserEmail, ""));
+
+
+            }
+        }
+    };
     ActionListener showFriendDetailActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -346,8 +347,15 @@ public class UserGUI implements Runnable{
 //                printWriter.flush();
 //                printWriter.write(implementingUserEmail);
 //                printWriter.flush();
-
-                String detail;
+                User implementingUser;
+                try {
+                    implementingUser = new User(implementingUserEmail);
+                } catch (InvalidInputException ex) {
+                    throw new RuntimeException(ex);
+                }
+                String detail = "Name: " + implementingUser.getName() +
+                                "\nMajor: " + implementingUser.getMajor() +
+                                "\nEmail: " + implementingUser.getEmail();
                 String[] details = null;
 //                try {
 //                    detail = bufferedReader.readLine();
@@ -357,11 +365,13 @@ public class UserGUI implements Runnable{
 //                }
 
                 if (details != null) {
-                    JOptionPane.showMessageDialog(null,
-                            "Name: " + details[0]
-                                    + "\nEmail: " + implementingUserEmail
-                                    + "\nMajor: ", "Detail Information",
-                            JOptionPane.INFORMATION_MESSAGE);
+//                    JOptionPane.showMessageDialog(null,
+//                            "Name: " + details[0]
+//                                    + "\nEmail: " + implementingUserEmail
+//                                    + "\nMajor: ", "Detail Information",
+//                            JOptionPane.INFORMATION_MESSAGE);
+                    //Temporarily use this for testing
+                    JOptionPane.showMessageDialog(null, detail);
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "An error occurred when finding the friend's detail information, please try again later", "Error",
@@ -372,8 +382,4 @@ public class UserGUI implements Runnable{
 
         }
     };
-
-
-
-
 }
