@@ -15,6 +15,8 @@ public class ClientThread extends Thread {
         this.port = port;
     }
     public void run() {
+        BufferedReader reader;
+        PrintWriter writer;
         try {
             //socket = serverSocket.accept();
             try {
@@ -22,16 +24,23 @@ public class ClientThread extends Thread {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            PrintWriter writer = new PrintWriter(socket.getOutputStream());
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//            writer.write("Connection Established");
-//            writer.println();
-//            writer.flush();
-            SwingUtilities.invokeLater(new UserGUI(reader, writer));
+            writer = new PrintWriter(socket.getOutputStream());
+            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            writer.write("Connection Established");
+            writer.println();
+            writer.flush();
         } catch (Exception e) {
             System.out.println("Some exception");
             return;
         }
+        try {
+            if(reader.readLine().equals("Call UserGUI")) {
+                SwingUtilities.invokeLater(new UserGUI(reader, writer));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
     public Socket getSocket() {
         return socket;
