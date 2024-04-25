@@ -170,11 +170,11 @@ public class Menu implements Runnable {
                     chat.addAMessage(choice.split(",,,")[choice.length() - 1], user);
                     //allow user to pick who to talk to and allow them to send messages
                 } else if (choice.contains("[remove friend command]")) {
-                    user.removeFriend(choice.split("command]")[1]);
+                    user.removeFriend(new User(choice.split("command]")[1]));
                 } else if (choice.contains("[unblock user command]")) {
-                    user.unblockUser(choice.split("command]")[1]);
+                    user.unblockUser(new User(choice.split("command]")[1]));
                 } else if (choice.contains("[block user command]")) {
-                    user.blockUser(choice.split("command]")[1]);
+                    user.blockUser(new User(choice.split("command]")[1]));
                 }
             } while (true);
         } catch (Exception e) {
