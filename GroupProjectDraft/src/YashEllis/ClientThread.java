@@ -34,7 +34,11 @@ public class ClientThread extends Thread {
             return;
         }
         try {
-            if(reader.readLine().equals("Call UserGUI")) {
+            String callUserGUI = null;
+            while (callUserGUI == null) {
+                callUserGUI = reader.readLine();
+            }
+            if(callUserGUI.equals("Call UserGUI")) {
                 SwingUtilities.invokeLater(new UserGUI(reader, writer));
             }
         } catch (IOException e) {
