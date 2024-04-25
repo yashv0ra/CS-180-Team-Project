@@ -96,13 +96,8 @@ public class Menu implements Runnable {
                             if (emailElements.length == 2 && !emailElements[0].isEmpty()
                                     && emailElements[1].equals("purdue.edu")) {
                                 email.add(emailInput);
-                                synchronized (this) {
-                                    password.add(passwordInput);
-                                    rewriteLoginDetails(email, password);
-                                }
-                                //Synchronize the two things above
-                                // I have no idea how synchronizing works, I just put that in as a placeholder.
-                                // Someone please look over - Yash
+                                password.add(passwordInput);
+                                rewriteLoginDetails(email, password);
                             } else {
                                 throw new InvalidInputException("Invalid Input!");
                             }
@@ -124,12 +119,15 @@ public class Menu implements Runnable {
                     }
                 }
             } while (!validUser);
-            farewellMessage();
         } catch (IOException e) {
             throw new RuntimeException();
         } catch (InvalidInputException r) {
 
         }
+
+        writer.write("Call UserGUI");
+        writer.println();
+        writer.flush();
 
         //User data format (each user has their own file with their respective data)
 
@@ -201,7 +199,7 @@ public class Menu implements Runnable {
         } catch (Exception e) {
 
         }
-
+        farewellMessage();
     }
 
     public BufferedReader getReader() {
@@ -222,7 +220,7 @@ public class Menu implements Runnable {
 
     public void rewriteLoginDetails(ArrayList<String> emails, ArrayList<String> passwords) throws InvalidInputException {
         String output = "";
-        for(int i = 0; i < emails.size(); i++) {
+        for (int i = 0; i < emails.size(); i++) {
             output = output.concat("\n" + emails.get(i) + "," + passwords.get(i));
         }
         if (!output.isEmpty()) {
@@ -259,16 +257,19 @@ public class Menu implements Runnable {
             }
         }
     }
+
     public static void welcomeMessage() {
         JOptionPane.showMessageDialog(null, "Welcome to Messaging Software!",
                 "Messaging Software", JOptionPane.INFORMATION_MESSAGE);
     }
+
     public static int accountInput() {
         int inp;
         inp = JOptionPane.showConfirmDialog(null, "Do you have an existing account?",
-                    "Messaging Software", JOptionPane.YES_NO_CANCEL_OPTION);
+                "Messaging Software", JOptionPane.YES_NO_CANCEL_OPTION);
         return inp + 1;
     }
+
     public static String loginEmailInput() {
         String inp;
         do {
@@ -284,40 +285,48 @@ public class Menu implements Runnable {
 
         return inp;
     }
+
     public static String loginPasswordInput() {
-        String inp;
-        inp = JOptionPane.showInputDialog(null, "Please enter your password.",
-                    "Messaging Software", JOptionPane.QUESTION_MESSAGE);
-        return inp;
-    }
-    public static String majorInput() {
         String inp;
         inp = JOptionPane.showInputDialog(null, "Please enter your password.",
                 "Messaging Software", JOptionPane.QUESTION_MESSAGE);
         return inp;
     }
+
+    public static String majorInput() {
+        String inp;
+        inp = JOptionPane.showInputDialog(null, "Please enter your major.",
+                "Messaging Software", JOptionPane.QUESTION_MESSAGE);
+        return inp;
+    }
+
     public static String fullNameInput() {
         String inp;
         inp = JOptionPane.showInputDialog(null, "Please enter your full name.",
                 "Messaging Software", JOptionPane.QUESTION_MESSAGE);
         return inp;
     }
+
     public static String signupPasswordInput() {
         String inp;
+        boolean valid = false;
         do {
             inp = JOptionPane.showInputDialog(null,
-                    "Please make a password with between 5 and 20 digits.",
+                    "Please make a password with between 5 and 20 characters.",
                     "Messaging Software", JOptionPane.QUESTION_MESSAGE);
             if ((inp == null) || ((inp.length() < 5)) || (inp.length() > 20)) {
                 JOptionPane.showMessageDialog(null,
-                        "Please enter a password with between 5 and 20 digits", "Messaging Software",
-                        JOptionPane.ERROR_MESSAGE);
+                        "Please make sure to enter a password with " +
+                                "between 5 and 20 characters", "Messaging Software", JOptionPane.ERROR_MESSAGE);
+            } else {
+                valid = true;
             }
 
-        } while ((inp == null) || ((!inp.contains("@purdue.edu"))));
+        } while (!valid);
 
         return inp;
     }
+
     public static int errorRetryInput(String error) {
         int inp;
         JOptionPane.showMessageDialog(null, error, "Messaging Software",
@@ -327,6 +336,7 @@ public class Menu implements Runnable {
                 "Messaging Software", JOptionPane.YES_NO_OPTION);
         return inp;
     }
+
     public static String inputRestrictMessage() {
         int inp;
         inp = JOptionPane.showConfirmDialog(null, "Would you like to receive " +
@@ -338,6 +348,7 @@ public class Menu implements Runnable {
             return "friends";
         }
     }
+
     public static void farewellMessage() {
         JOptionPane.showMessageDialog(null, "Farewell!",
                 "Messaging Software", JOptionPane.INFORMATION_MESSAGE);
