@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -57,38 +58,51 @@ public class Menu implements Runnable {
                     throw new InvalidInputException("Invalid Input!");
                 }
             }
-            //Insert Welcome page with option to login or sign up and based on user choice, change account value
-            int account = 0; // 1 when user wants to log in, 2 when user wants to sign up, and 3 when user wants to exit
+            //[DONE]Insert Welcome page with option to login or sign up and based on user choice, change account value
+            welcomeMessage();
             boolean validUser = false; //turns true when user is logged in/ signed up
             do {
+                int account = accountInput(); // 1 when user wants to log in, 2 when user wants to sign up, and 3 when user wants to exit
                 if (account == 1) {
-                    //Let user input both
+                    emailInput = loginEmailInput();
+                    passwordInput = loginPasswordInput();
                     if (email.contains(emailInput) && password.get(email.indexOf(emailInput)).equals(passwordInput)) {
                         validUser = true;
                     } else {
+                        int retry = 0;
                         if (!email.contains(emailInput)) {
-                            throw new InvalidInputException("User with this email does not exist");
+                            retry = errorRetryInput("User with this email does not exist");
                         } else if (password.get(email.indexOf(emailInput)).equals(passwordInput)) {
-                            throw new InvalidInputException("Password and email do not match");
+                            retry = errorRetryInput("Password and email do not match");
                         }
-                        //Provide user options to retry, sign up, or end program and update account accordingly
+                        // retry is 0 for yes, is 1 for no
+                        if (retry == 0) {
+                            return;
+                        }
+                        if (retry == 1) {
+                            break;
+                        }
+                        //[DONE]Provide user options to retry, sign up, or end program and update account accordingly
                     }
                 } else if (account == 2) {
-                    emailInput = "";
-                    passwordInput = "";
-                    String majorInput = "";
-                    String nameInput = "";
-                    String restrictionInput = ""; //"all" or "friends"
-                    //Let user input all of the above
+                    emailInput = loginEmailInput();
+                    passwordInput = signupPasswordInput();
+                    String majorInput = majorInput();
+                    String nameInput = fullNameInput();
+                    String restrictionInput = inputRestrictMessage(); //"all" or "friends"
                     if (!email.contains(emailInput)) {
                         if (emailInput.contains("@") && !emailInput.contains(" ") && !passwordInput.isEmpty()) {
                             String[] emailElements = emailInput.split("@");
                             if (emailElements.length == 2 && !emailElements[0].isEmpty()
                                     && emailElements[1].equals("purdue.edu")) {
                                 email.add(emailInput);
-                                password.add(passwordInput);
-                                rewriteLoginDetails(email, password);
+                                synchronized (this) {
+                                    password.add(passwordInput);
+                                    rewriteLoginDetails(email, password);
+                                }
                                 //Synchronize the two things above
+                                // I have no idea how synchronizing works, I just put that in as a placeholder.
+                                // Someone please look over - Yash
                             } else {
                                 throw new InvalidInputException("Invalid Input!");
                             }
@@ -98,21 +112,28 @@ public class Menu implements Runnable {
                         validUser = true;
                         createUserFile(emailInput, passwordInput, majorInput, nameInput, restrictionInput);
                     } else {
-                        if (email.contains(emailInput)) {
-                            //throw new InvalidInputException("User with this email already exists");
+                        int retry = errorRetryInput("This email is already tied to an account. " +
+                                "Please use a different email.");
+                        if (retry == 0) {
+                            return;
+                        }
+                        if (retry == 1) {
+                            break;
                         }
                         //Provide user options to retry, log in, or end program and update account accordingly
                     }
                 }
             } while (!validUser);
+            farewellMessage();
         } catch (IOException e) {
             throw new RuntimeException();
         } catch (InvalidInputException r) {
+
         }
 
         //User data format (each user has their own file with their respective data)
 
-        //The file names would be jkaraki@purdue.eduDataFile and would be formatted as:
+        //The file names would be jkaraki@purdue.edu and would be formatted as:
         //jkaraki@purdue.edu,1234
         //Jad
         //Industrial Engineering
@@ -128,7 +149,7 @@ public class Menu implements Runnable {
         //Blocked:Empty
         //WhoCanMessage:friends
         try {
-            BufferedReader bfr = new BufferedReader(new FileReader(emailInput.concat("DataFile")));
+            BufferedReader bfr = new BufferedReader(new FileReader(new File(emailInput)));
             ArrayList<String> userData = new ArrayList<>();
             String l = bfr.readLine();
             while (l != null) {
@@ -223,7 +244,7 @@ public class Menu implements Runnable {
         //Blocked:cs180@purdue.edu,csdep@purdue.edu...
         //WhoCanMessage:all
         String output = "";
-        output = output.concat("\n" + email);
+        output = output.concat("\n" + email + "," + password);
         output = output.concat("\n" + name);
         output = output.concat("\n" + major);
         output = output.concat("\nFriends:Empty");
@@ -231,11 +252,94 @@ public class Menu implements Runnable {
         output = output.concat("\nWhoCanMessage:" + restriction);
         if (!output.isEmpty()) {
             output = output.substring(1);
-            try (PrintWriter out = new PrintWriter(email + ".txt")) {
+            try (PrintWriter out = new PrintWriter(email)) {
                 out.print(output);
             } catch (Exception e) {
                 throw new InvalidInputException("Problem creating user file");
             }
         }
+    }
+    public static void welcomeMessage() {
+        JOptionPane.showMessageDialog(null, "Welcome to Messaging Software!",
+                "Messaging Software", JOptionPane.INFORMATION_MESSAGE);
+    }
+    public static int accountInput() {
+        int inp;
+        inp = JOptionPane.showConfirmDialog(null, "Do you have an existing account?",
+                    "Messaging Software", JOptionPane.YES_NO_CANCEL_OPTION);
+        return inp + 1;
+    }
+    public static String loginEmailInput() {
+        String inp;
+        do {
+            inp = JOptionPane.showInputDialog(null, "Please enter your Purdue email.",
+                    "Messaging Software", JOptionPane.QUESTION_MESSAGE);
+            if ((inp == null) || ((!inp.contains("@purdue.edu")))) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid Purdue email with @purdue.edu.", "Messaging Software",
+                        JOptionPane.ERROR_MESSAGE);
+
+            } //end if
+
+        } while ((inp == null) || ((!inp.contains("@purdue.edu"))));
+
+        return inp;
+    }
+    public static String loginPasswordInput() {
+        String inp;
+        inp = JOptionPane.showInputDialog(null, "Please enter your password.",
+                    "Messaging Software", JOptionPane.QUESTION_MESSAGE);
+        return inp;
+    }
+    public static String majorInput() {
+        String inp;
+        inp = JOptionPane.showInputDialog(null, "Please enter your password.",
+                "Messaging Software", JOptionPane.QUESTION_MESSAGE);
+        return inp;
+    }
+    public static String fullNameInput() {
+        String inp;
+        inp = JOptionPane.showInputDialog(null, "Please enter your full name.",
+                "Messaging Software", JOptionPane.QUESTION_MESSAGE);
+        return inp;
+    }
+    public static String signupPasswordInput() {
+        String inp;
+        do {
+            inp = JOptionPane.showInputDialog(null,
+                    "Please make a password with between 5 and 20 digits.",
+                    "Messaging Software", JOptionPane.QUESTION_MESSAGE);
+            if ((inp == null) || ((inp.length() < 5)) || (inp.length() > 20)) {
+                JOptionPane.showMessageDialog(null,
+                        "Please enter a password with between 5 and 20 digits", "Messaging Software",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+        } while ((inp == null) || ((!inp.contains("@purdue.edu"))));
+
+        return inp;
+    }
+    public static int errorRetryInput(String error) {
+        int inp;
+        JOptionPane.showMessageDialog(null, error, "Messaging Software",
+                JOptionPane.ERROR_MESSAGE);
+        inp = JOptionPane.showConfirmDialog(null, "Would you like to retry? " +
+                        "\n (If you select No, the program will end)",
+                "Messaging Software", JOptionPane.YES_NO_OPTION);
+        return inp;
+    }
+    public static String inputRestrictMessage() {
+        int inp;
+        inp = JOptionPane.showConfirmDialog(null, "Would you like to receive " +
+                        "messages from everyone? \n (If you select No, only your friends will be able to message you)",
+                "Messaging Software", JOptionPane.YES_NO_OPTION);
+        if (inp == 0) {
+            return "all";
+        } else {
+            return "friends";
+        }
+    }
+    public static void farewellMessage() {
+        JOptionPane.showMessageDialog(null, "Farewell!",
+                "Messaging Software", JOptionPane.INFORMATION_MESSAGE);
     }
 }
