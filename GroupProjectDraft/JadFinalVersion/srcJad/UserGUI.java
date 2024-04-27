@@ -299,8 +299,12 @@ public class UserGUI implements Runnable {
                 try {
                     results = bufferedReader.readLine();
                     System.out.println(results);
-                    searchUserResultsList = new JComboBox<>(results.split("/"));
-
+                    searchUserResultsList.removeAllItems();
+                    String[] resultsOfSearchInArray = results.split("/");
+                    for (String r : resultsOfSearchInArray) {
+                        searchUserResultsList.addItem(r);
+                    }
+//                    searchUserResultsList = new JComboBox<>(results.split("/"));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     //error occurs when reading searching results
@@ -318,6 +322,9 @@ public class UserGUI implements Runnable {
 
 
                 implementingUserEmail = (String) searchUserResultsList.getSelectedItem();
+                if (implementingUserEmail != null) {
+                    chatArea.setText(conversations.getOrDefault(implementingUserEmail, ""));
+                }
 
 
             }
