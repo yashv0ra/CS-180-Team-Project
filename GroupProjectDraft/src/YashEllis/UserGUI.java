@@ -35,8 +35,8 @@ public class UserGUI implements Runnable{
     private JScrollPane scrollPane;
     private JTextField inputDialogue;
     private JButton sendMessageButton;
-
-
+    private JButton deleteLastMessageButton;
+    private String withoutLastMessage;
 
     public UserGUI(BufferedReader bfr, PrintWriter pw) {
         //this is only for testing
@@ -44,6 +44,7 @@ public class UserGUI implements Runnable{
         //(messaging software can still see own data and even if there is no connection)
         //(also it decreases the level of complexity)
         //and update from time to time
+
         ArrayList<String> fl = new ArrayList<>();
         ArrayList<String> bl = new ArrayList<>();
         fl.add("friend1@purdue.edu");
@@ -54,8 +55,15 @@ public class UserGUI implements Runnable{
         bl.add("blocked1@purdue.edu");
         bl.add("blocked2@purdue.edu");
         bl.add("someRandomPerson123@purdue.edu");
-        currentUser = new User();
+
+        try {
+            String emailCurrentUser = bfr.readLine();
+            currentUser = new User(emailCurrentUser);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         //
+        System.out.println("Email from UserGUI: " + currentUser.getEmail());
 
         currentUser.setFriendsList(fl);
         currentUser.setBlockedList(bl);
@@ -97,6 +105,9 @@ public class UserGUI implements Runnable{
         sendMessageButton = new JButton("Send");
         sendMessageButton.addActionListener(sendMessageActionListener);
 
+        deleteLastMessageButton = new JButton("Delete Last Message");
+        deleteLastMessageButton.addActionListener(deleteLastMessageActionListener);
+        withoutLastMessage = null;
     }
 
 
@@ -140,6 +151,7 @@ public class UserGUI implements Runnable{
         centerCenterPanel.add(scrollPane, BorderLayout.CENTER);
         centerDownPanel.add(inputDialogue);
         centerDownPanel.add(sendMessageButton);
+        centerDownPanel.add(deleteLastMessageButton);
         centerPanel.add(centerCenterPanel, BorderLayout.CENTER);
         centerPanel.add(centerDownPanel, BorderLayout.SOUTH);
         jPanel.add(centerPanel, BorderLayout.CENTER);
@@ -157,8 +169,8 @@ public class UserGUI implements Runnable{
                 } else {
                     if (!inputDialogue.getText().isEmpty()) {
                         System.out.println("sending: " + inputDialogue.getText() + " to " + implementingUserEmail + " , if possible.");
-                    printWriter.write("[sending message command],,," + implementingUserEmail + ",,,[message],,," + inputDialogue.getText());
-                    printWriter.flush();
+//                    printWriter.write("[sending message command],,," + implementingUserEmail + ",,,[message],,," + inputDialogue.getText());
+//                    printWriter.flush();
                         //it is up to server side to check friendList and blockList to if the sending can work
                         //if can just add the message to that specific file
                         String conversation = conversations.getOrDefault(implementingUserEmail, "");
@@ -194,8 +206,8 @@ public class UserGUI implements Runnable{
                                     JOptionPane.YES_NO_OPTION);
                             if (confirm == JOptionPane.YES_OPTION) {
                                 currentUser.removeFriend(aEmail); //do not need
-                                printWriter.write("[remove friend command]" + aEmail);
-                                printWriter.flush();
+//                                printWriter.write("[remove friend command]" + aEmail);
+//                                printWriter.flush();
                             }
                             operatedOnce = true;
                         }
@@ -233,8 +245,8 @@ public class UserGUI implements Runnable{
                                     JOptionPane.YES_NO_OPTION);
                             if (confirm == JOptionPane.YES_OPTION) {
                                 currentUser.unblockUser(aEmail); //do not need
-                                printWriter.write("[unblock user command]" + aEmail);
-                                printWriter.flush();
+//                                printWriter.write("[unblock user command]" + aEmail);
+//                                printWriter.flush();
                             }
                             operatedOnce = true;
                         }
@@ -243,8 +255,8 @@ public class UserGUI implements Runnable{
                         confirm = JOptionPane.showConfirmDialog(null, "This user is currently not blocked by you, do you want to block" + implementingUserEmail +"?", "Block user",
                                 JOptionPane.YES_NO_OPTION);
                         currentUser.blockUser(implementingUserEmail); //do not need
-                      printWriter.write("[block user command]" + implementingUserEmail);
-                      printWriter.flush();
+//                      printWriter.write("[block user command]" + implementingUserEmail);
+//                      printWriter.flush();
                     }
                 }
 
@@ -314,6 +326,19 @@ public class UserGUI implements Runnable{
             }
         }
     };
+    ActionListener deleteLastMessageActionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == deleteLastMessageButton) {
+
+
+                conversations.put(implementingUserEmail, withoutLastMessage);
+                chatArea.setText(conversations.getOrDefault(implementingUserEmail, ""));
+
+
+            }
+        }
+    };
     ActionListener showFriendDetailActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -326,8 +351,15 @@ public class UserGUI implements Runnable{
 //                printWriter.flush();
 //                printWriter.write(implementingUserEmail);
 //                printWriter.flush();
-
-                String detail;
+                User implementingUser;
+                try {
+                    implementingUser = new User(implementingUserEmail);
+                } catch (InvalidInputException ex) {
+                    throw new RuntimeException(ex);
+                }
+                String detail = "Name: " + implementingUser.getName() +
+                                "\nMajor: " + implementingUser.getMajor() +
+                                "\nEmail: " + implementingUser.getEmail();
                 String[] details = null;
 //                try {
 //                    detail = bufferedReader.readLine();
@@ -337,11 +369,13 @@ public class UserGUI implements Runnable{
 //                }
 
                 if (details != null) {
-                    JOptionPane.showMessageDialog(null,
-                            "Name: " + details[0]
-                                    + "\nEmail: " + implementingUserEmail
-                                    + "\nMajor: ", "Detail Information",
-                            JOptionPane.INFORMATION_MESSAGE);
+//                    JOptionPane.showMessageDialog(null,
+//                            "Name: " + details[0]
+//                                    + "\nEmail: " + implementingUserEmail
+//                                    + "\nMajor: ", "Detail Information",
+//                            JOptionPane.INFORMATION_MESSAGE);
+                    //Temporarily use this for testing
+                    JOptionPane.showMessageDialog(null, detail);
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "An error occurred when finding the friend's detail information, please try again later", "Error",
