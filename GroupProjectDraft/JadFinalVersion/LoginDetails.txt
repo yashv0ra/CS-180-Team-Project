@@ -1,0 +1,11 @@
+abc@purdue.edu,123
+Arnav@purdue.edu,cs180
+xyz@purdue.edu,Purdue Pete
+email@purdue.edu,wasd
+bob@purdue.edu,joe
+joe@purdue.edu,bob
+jkarakoubev@purdue.edu,iwubefi
+wang5788@purdue.edu,123
+friend1@purdue.edu,123
+friend2@purdue.edu,123
+friend3@purdue.edu,123
