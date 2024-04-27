@@ -12,9 +12,9 @@ public class Menu implements Runnable {
     public void run() {
         String confirmation = null;
         try {
-            while (confirmation == null) {
+
                 confirmation = reader.readLine();
-            }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -24,7 +24,7 @@ public class Menu implements Runnable {
         ArrayList<User> userlist = new ArrayList<>();
         Database data = new Database(userlist);
         User user = new User();
-        Scanner scanner = new Scanner(System.in);
+//        Scanner scanner = new Scanner(System.in);
         String emailInput = "";
         String passwordInput = "";
         try {
@@ -62,7 +62,7 @@ public class Menu implements Runnable {
             }
             //[DONE]Insert Welcome page with option to login or sign up and based on user choice, change account value
             welcomeMessage();
-            boolean validUser = false; //turns true when user is logged in/ signed up
+            boolean validUser = false; //turns true when user is logged in / signed up
             do {
                 int account = accountInput(); // 1 when user wants to log in, 2 when user wants to sign up, and 3 when user wants to exit
                 if (account == 1) {
@@ -119,6 +119,8 @@ public class Menu implements Runnable {
                         }
                         //Provide user options to retry, log in, or end program and update account accordingly
                     }
+                } else if (account == 3) {
+                    break;
                 }
             } while (!validUser);
         } catch (IOException e) {
@@ -154,8 +156,8 @@ public class Menu implements Runnable {
             ArrayList<String> friends = new ArrayList<>();
             ArrayList<String> blocked = new ArrayList<>();
             ArrayList<Chat> chats = new ArrayList<>();
-            String[] friendString = userData.get(3).substring(7).split(",");
-            String[] blockedString = userData.get(4).substring(7).split(",");
+            String[] friendString = userData.get(3).substring(8).split(",");
+            String[] blockedString = userData.get(4).substring(8).split(",");
             if (!friendString[0].equals("Empty")) {
                 for (int i = 0; i < friendString.length; i++) {
                     friends.add((friendString[i]));
@@ -174,14 +176,14 @@ public class Menu implements Runnable {
                     //this for loop will initialize a list of users and corresponding chats
                 }
             }
-            for(String u: userData) {
-                System.out.println(u);
-            }
-            System.out.println(passwordInput);
-            System.out.println(emailInput);
-            System.out.println(friends);
-            System.out.println(blocked);
-            System.out.println(chats);
+//            for(String u: userData) {
+//                System.out.println(u);
+//            }
+//            System.out.println(passwordInput);
+//            System.out.println(emailInput);
+//            System.out.println(friends);
+//            System.out.println(blocked);
+//            System.out.println(chats);
             user = new User(userData.get(1), passwordInput, emailInput, userData.get(2), friends,
                     blocked, chats, userData.get(5).split(":")[1].equals("friends"));
             //Write new data to file either now or at end of program
@@ -196,7 +198,9 @@ public class Menu implements Runnable {
             writer.println();
             writer.flush();
             do {
+                System.out.println("started do while");
                 choice = reader.readLine();
+                System.out.println(choice);
                 if (choice.contains("[sending message command]")) {
                     Chat chat = new Chat(user.getEmail() + "_with_" + choice.split(",,,")[1]);
                     chat.addAMessage(choice.split(",,,")[choice.length() - 1], user);
