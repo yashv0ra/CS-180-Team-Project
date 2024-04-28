@@ -200,24 +200,30 @@ public class UserGUI implements Runnable {
                     JOptionPane.showMessageDialog(null, "Please choose a user first", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 } else {
+                    String emailToRemove = null;
                     for (String aEmail : currentUser.getFriendsList()) {
                         if (aEmail.equals(implementingUserEmail) && !operatedOnce) {
                             confirm = JOptionPane.showConfirmDialog(null, "This user is already your friend, do you want to remove friend" + aEmail + "?", "Remove friend",
                                     JOptionPane.YES_NO_OPTION);
                             if (confirm == JOptionPane.YES_OPTION) {
-                                currentUser.removeFriend(aEmail); //do not need
+                                emailToRemove = aEmail;
 //                                printWriter.write("[remove friend command]" + aEmail);
 //                                printWriter.flush();
                             }
                             operatedOnce = true;
                         }
                     }
+                    if (emailToRemove != null) {
+                        currentUser.removeFriend(implementingUserEmail);
+                        friendList.removeItem(emailToRemove);
+                    }
                     if (!operatedOnce) {
                         confirm = JOptionPane.showConfirmDialog(null, "This user is currently not your friend, do you sure want to add friend" + implementingUserEmail + "?", "Add friend",
                                 JOptionPane.YES_NO_OPTION);
-                        currentUser.addFriend(implementingUserEmail); //do not need
-//                                printWriter.write("[add friend command]" + implementingUserEmail);
-//                                printWriter.flush();
+                        currentUser.addFriend(implementingUserEmail);
+//                        printWriter.write("[add friend command]" + implementingUserEmail);
+//                        printWriter.flush();
+                        friendList.addItem(implementingUserEmail);
                     }
                 }
 
@@ -380,9 +386,9 @@ public class UserGUI implements Runnable {
                 } catch (InvalidInputException ex) {
                     throw new RuntimeException(ex);
                 }
-                String detail = "Name: " + details[0] +
-                        "\nMajor: " + details[1] +
-                        "\nEmail: " + details[2];
+                String detail = details[0] +
+                        "\n" + details[1] +
+                        "\n" + details[2];
 //                try {
 //                    detail = bufferedReader.readLine();
 //                    details = detail.split("/");
@@ -392,9 +398,9 @@ public class UserGUI implements Runnable {
 
                 if (details != null) {
                     JOptionPane.showMessageDialog(null,
-                            "Name: " + details[0]
-                                    + "\nEmail: " + details[2]
-                                    + "\nMajor: " + details[1], "Detail Information",
+                            details[0]
+                                    + "\n" + details[2]
+                                    + "\n" + details[1], "Detail Information",
                             JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null,
