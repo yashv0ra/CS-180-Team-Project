@@ -127,8 +127,22 @@ there are getter and setter methods for the reader and writer. These methods are
 getReader, a public void named setReader with the buffered reader paramater named "reader", a public Print Writer named 
 getWriter, and a public void method named setWriter with a PrintWriter variable named writer. There are also two methods
 named rewriteLoginDetails and createUserFile with two String arrayList parameters "emails" and "passwords" as well as 
-five string parameters named "email", "password", "major", "name", and "restriction" respectively. static void welcomeMessage,
-static int accountInput,
+five string parameters named "email", "password", "major", "name", and "restriction" respectively. There were also two 
+static void methods named welcomeMessage and farewellMessage. Additionally, there were two static int methods named
+accountInput and then errorRetryInput with a String parameter named error. Finally, there were six static String methods 
+named loginEmailInput, loginPasswordInput, majorInput, fullNameInput, signupPasswordInput, and inputRestrictMessage.
+
+The **UserGUI** contains all of the formatting for the GUI of the project. There are many 19 variables in the GUI.
+They are a User named "currentUser", a BufferedReader named "bufferedReader", a PrintWriter named "printWriter", a
+String named "implementingUserEmail", a JLabel named "userFriendListLabel", a JComboBox named "friendList", a JButton 
+named "showFriendDetail" a JComboBox named "searchUserResultsList", a JTextField named "searchUserText", a JButton 
+named "searchButton", a JButton named "addOrRemoveButton", a JButton named "blockOrUnblockButton", a JTextArea named 
+"chatArea", a Map<String, String> named "conversations", a JScrollPane named "scrollPane", a JTextField named "inputDialogue",
+a JButton named "sendMessageButton", a JButton named "deleteLastMessageButton", and a String named "withoutLastMessage".
+There is also a public UserGUI constructor with a BufferedReader parameter named "bfr" and a PrintWriter parameter named "pw".
+The class also has a public void method named "run" which runs the program. The class also has 8 public void methods named
+actionPerformed with an ActionEvent parameter named "e". Each of these 8 methods is for each button of the GUI.
+
 
 
 
