@@ -203,7 +203,7 @@ public class UserGUI implements Runnable {
                     String emailToRemove = null;
                     for (String aEmail : currentUser.getFriendsList()) {
                         if (aEmail.equals(implementingUserEmail) && !operatedOnce) {
-                            confirm = JOptionPane.showConfirmDialog(null, "This user is already your friend, do you want to remove friend" + aEmail + "?", "Remove friend",
+                            confirm = JOptionPane.showConfirmDialog(null, "This user is already your friend, do you want to remove friend " + aEmail + "?", "Remove friend",
                                     JOptionPane.YES_NO_OPTION);
                             if (confirm == JOptionPane.YES_OPTION) {
                                 emailToRemove = aEmail;
@@ -219,7 +219,7 @@ public class UserGUI implements Runnable {
                         friendList.removeItem(emailToRemove);
                     }
                     if (!operatedOnce) {
-                        confirm = JOptionPane.showConfirmDialog(null, "This user is currently not your friend, do you sure want to add friend" + implementingUserEmail + "?", "Add friend",
+                        confirm = JOptionPane.showConfirmDialog(null, "This user is currently not your friend, do you sure want to add friend " + implementingUserEmail + "?", "Add friend",
                                 JOptionPane.YES_NO_OPTION);
                         currentUser.addFriend(implementingUserEmail);
                         printWriter.write("[add friend command]" + implementingUserEmail);
@@ -261,7 +261,7 @@ public class UserGUI implements Runnable {
                         }
                     }
                     if (!operatedOnce) {
-                        confirm = JOptionPane.showConfirmDialog(null, "This user is currently not blocked by you, do you want to block" + implementingUserEmail + "?", "Block user",
+                        confirm = JOptionPane.showConfirmDialog(null, "This user is currently not blocked by you, do you want to block " + implementingUserEmail + "?", "Block user",
                                 JOptionPane.YES_NO_OPTION);
                         currentUser.blockUser(implementingUserEmail); //do not need
                       printWriter.write("[block user command]" + implementingUserEmail);
