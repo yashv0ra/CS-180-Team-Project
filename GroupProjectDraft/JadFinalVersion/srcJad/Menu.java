@@ -66,10 +66,9 @@ public class Menu implements Runnable {
             do {
                 int account = accountInput(); // 1 when user wants to log in, 2 when user wants to sign up, and 3 when user wants to exit
                 if (account == 1) {
-//                    emailInput = loginEmailInput();
-//                    passwordInput = loginPasswordInput();
-                    emailInput = "wang5788@purdue.edu";
-                    passwordInput = "123";
+                   emailInput = loginEmailInput();
+                   passwordInput = loginPasswordInput();
+
                     if (email.contains(emailInput) && password.get(email.indexOf(emailInput)).equals(passwordInput)) {
                         validUser = true;
                     } else {
