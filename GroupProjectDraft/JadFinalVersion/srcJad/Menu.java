@@ -76,7 +76,7 @@ public class Menu implements Runnable {
                         int retry = 0;
                         if (!email.contains(emailInput)) {
                             retry = errorRetryInput("User with this email does not exist");
-                        } else if (password.get(email.indexOf(emailInput)).equals(passwordInput)) {
+                        } else if (!password.get(email.indexOf(emailInput)).equals(passwordInput)) {
                             retry = errorRetryInput("Password and email do not match");
                         }
                         // retry is 0 for yes, is 1 for no
@@ -121,7 +121,9 @@ public class Menu implements Runnable {
                         }
                         //Provide user options to retry, log in, or end program and update account accordingly
                     }
-                }
+                } else if (account == 3) {
+                    break;
+                } 
             } while (!validUser);
         } catch (IOException e) {
             throw new RuntimeException();
