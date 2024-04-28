@@ -129,6 +129,7 @@ public class Menu implements Runnable {
         } catch (InvalidInputException r) {
 
         }
+        farewellMessage();
         //User data format (each user has their own file with their respective data)
 
         //The file names would be jkaraki@purdue.edu and would be formatted as:
