@@ -13,7 +13,7 @@ public class Menu implements Runnable {
         String confirmation = null;
         try {
 
-                confirmation = reader.readLine();
+            confirmation = reader.readLine();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -66,8 +66,8 @@ public class Menu implements Runnable {
             do {
                 int account = accountInput(); // 1 when user wants to log in, 2 when user wants to sign up, and 3 when user wants to exit
                 if (account == 1) {
-                   emailInput = loginEmailInput();
-                   passwordInput = loginPasswordInput();
+                    emailInput = loginEmailInput();
+                    passwordInput = loginPasswordInput();
 
                     if (email.contains(emailInput) && password.get(email.indexOf(emailInput)).equals(passwordInput)) {
                         validUser = true;
@@ -120,16 +120,13 @@ public class Menu implements Runnable {
                         }
                         //Provide user options to retry, log in, or end program and update account accordingly
                     }
-                } else if (account == 3) {
-                    break;
-                } 
+                }
             } while (!validUser);
         } catch (IOException e) {
             throw new RuntimeException();
         } catch (InvalidInputException r) {
 
         }
-        farewellMessage();
         //User data format (each user has their own file with their respective data)
 
         //The file names would be jkaraki@purdue.edu and would be formatted as:
@@ -203,10 +200,10 @@ public class Menu implements Runnable {
                 choice = reader.readLine();
                 if (choice.contains("[sending message command]")) {
                     Chat chat = new Chat(user.getEmail() + "_with_" + choice.split(",,,")[1]);
-                    if(chat.addAMessage(choice.split(",,,")[3], user)) {
+                    if (chat.addAMessage(choice.split(",,,")[3], user)) {
                         System.out.println("FLALSO#$UBFR");
                     }
-                    for(String s: chat.getMessages()) {
+                    for (String s : chat.getMessages()) {
                         writer.write("CONTINUE");
                         writer.println();
                         writer.flush();
@@ -221,9 +218,13 @@ public class Menu implements Runnable {
                     user.removeFriend(new User(choice.split("command]")[1]));
                 } else if (choice.contains("[unblock user command]")) {
                     user.unblockUser(new User(choice.split("command]")[1]));
+                } else if (choice.contains("[add friend command]")) {
+                    user.addFriend(new User(choice.split("command]")[1]));
+                } else if (choice.contains("[block user command]")) {
+                    user.blockUser(new User(choice.split("command]")[1]));
                 } else if (choice.contains("[delete last message]")) {
                     Chat chat = new Chat(user.getEmail() + "_with_" + choice.split(",,,")[1]);
-                    for(int i = 0; i < chat.getMessages().size() - 1; i ++) {
+                    for (int i = 0; i < chat.getMessages().size() - 1; i++) {
                         writer.write("CONTINUE");
                         writer.println();
                         writer.flush();
@@ -248,8 +249,8 @@ public class Menu implements Runnable {
                     writer.flush();
                 } else if (choice.contains("[search user command]")) {
                     String output = "";
-                    for(String e: email) {
-                        if(e.contains(choice.split(",,,")[1])) {
+                    for (String e : email) {
+                        if (e.contains(choice.split(",,,")[1])) {
                             output = output.concat("/" + e);
                             System.out.println(e);
                         }
@@ -281,7 +282,8 @@ public class Menu implements Runnable {
         this.writer = writer;
     }
 
-    public void rewriteLoginDetails(ArrayList<String> emails, ArrayList<String> passwords) throws InvalidInputException {
+    public void rewriteLoginDetails(ArrayList<String> emails, ArrayList<String> passwords) throws
+            InvalidInputException {
         String output = "";
         for (int i = 0; i < emails.size(); i++) {
             output = output.concat("\n" + emails.get(i) + "," + passwords.get(i));
@@ -338,12 +340,10 @@ public class Menu implements Runnable {
         do {
             inp = JOptionPane.showInputDialog(null, "Please enter your Purdue email.",
                     "Messaging Software", JOptionPane.QUESTION_MESSAGE);
-            if ((inp == null) || ((!inp.contains("@purdue.edu")))) {
+            if ((inp.isEmpty()) || ((!inp.contains("@purdue.edu")))) {
                 JOptionPane.showMessageDialog(null, "Please enter a valid Purdue email with @purdue.edu.", "Messaging Software",
                         JOptionPane.ERROR_MESSAGE);
-
             } //end if
-
         } while ((inp == null) || ((!inp.contains("@purdue.edu"))));
 
         return inp;
