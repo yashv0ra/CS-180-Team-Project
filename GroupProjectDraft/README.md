@@ -19,6 +19,12 @@ ImpossibleChangeException.java, and InvalidInputException.java, Menu.java, Clien
 - ClientThread.java will contain the client side code of the program.
 - MainThread.java will contain the server side code of the program.
 
+### Phase 3 Classes:
+
+- For phase 2 Menu contained the signup/login system and the choices a user can choose to perform once in the program.
+  As a part of phase 3, Menu will now include what was just previously covered as well as backend code for the GUI.
+- UserGUI will include the GUI and all of its formating so that it shows up on screen as intended.
+
 
 ### Phase 1 Class Descriptions: 
 
@@ -113,6 +119,16 @@ The **MainThread** class contains two fields: an int named portNum and a ServerS
 MainThread constructor which sets the portNum variable. The class also contains a void run method which allows the server
 to start. Finally, the serverSocket variable has a getter method named getServerSocket.
 
+### Phase 3 Class Descriptions:
+
+The **Menu** class contains all that is mentioned for Menu in the previous Phase 2 Class Descriptions section. As a part of
+phase 3, the class also contains all the back end code for the GUI. There are a lot of new methods in this class. To start,
+there are getter and setter methods for the reader and writer. These methods are a public BufferedReader method named 
+getReader, a public void named setReader with the buffered reader paramater named "reader", a public Print Writer named 
+getWriter, and a public void method named setWriter with a PrintWriter variable named writer. There are also two methods
+named rewriteLoginDetails and createUserFile with two String arrayList parameters "emails" and "passwords" as well as 
+five string parameters named "email", "password", "major", "name", and "restriction" respectively. static void welcomeMessage,
+static int accountInput,
 
 
 
@@ -120,6 +136,7 @@ to start. Finally, the serverSocket variable has a getter method named getServer
 
 Yash submitted phase 1 on Vocareum.
 Yash submitted phase 2 on Vocareum.
+Yash submitted phase 3 on Vocareum.
 
 ## Compiling and Running:
 
