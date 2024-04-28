@@ -219,7 +219,7 @@ public class UserGUI implements Runnable {
                         friendList.removeItem(emailToRemove);
                     }
                     if (!operatedOnce) {
-                        confirm = JOptionPane.showConfirmDialog(null, "This user is currently not your friend, do you sure want to add friend " + implementingUserEmail + "?", "Add friend",
+                        confirm = JOptionPane.showConfirmDialog(null, "This user is currently not your friend, do you want to add friend " + implementingUserEmail + "?", "Add friend",
                                 JOptionPane.YES_NO_OPTION);
                         currentUser.addFriend(implementingUserEmail);
                         printWriter.write("[add friend command]" + implementingUserEmail);
