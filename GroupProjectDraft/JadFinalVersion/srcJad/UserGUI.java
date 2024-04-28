@@ -207,8 +207,9 @@ public class UserGUI implements Runnable {
                                     JOptionPane.YES_NO_OPTION);
                             if (confirm == JOptionPane.YES_OPTION) {
                                 emailToRemove = aEmail;
-//                                printWriter.write("[remove friend command]" + aEmail);
-//                                printWriter.flush();
+                                printWriter.write("[remove friend command]" + aEmail);
+                                printWriter.println();
+                                printWriter.flush();
                             }
                             operatedOnce = true;
                         }
@@ -221,8 +222,9 @@ public class UserGUI implements Runnable {
                         confirm = JOptionPane.showConfirmDialog(null, "This user is currently not your friend, do you sure want to add friend" + implementingUserEmail + "?", "Add friend",
                                 JOptionPane.YES_NO_OPTION);
                         currentUser.addFriend(implementingUserEmail);
-//                        printWriter.write("[add friend command]" + implementingUserEmail);
-//                        printWriter.flush();
+                        printWriter.write("[add friend command]" + implementingUserEmail);
+                        printWriter.println();
+                        printWriter.flush();
                         friendList.addItem(implementingUserEmail);
                     }
                 }
@@ -251,8 +253,9 @@ public class UserGUI implements Runnable {
                                     JOptionPane.YES_NO_OPTION);
                             if (confirm == JOptionPane.YES_OPTION) {
                                 currentUser.unblockUser(aEmail); //do not need
-//                                printWriter.write("[unblock user command]" + aEmail);
-//                                printWriter.flush();
+                                printWriter.write("[unblock user command]" + aEmail);
+                                printWriter.println();
+                                printWriter.flush();
                             }
                             operatedOnce = true;
                         }
@@ -261,8 +264,9 @@ public class UserGUI implements Runnable {
                         confirm = JOptionPane.showConfirmDialog(null, "This user is currently not blocked by you, do you want to block" + implementingUserEmail + "?", "Block user",
                                 JOptionPane.YES_NO_OPTION);
                         currentUser.blockUser(implementingUserEmail); //do not need
-//                      printWriter.write("[block user command]" + implementingUserEmail);
-//                      printWriter.flush();
+                      printWriter.write("[block user command]" + implementingUserEmail);
+                      printWriter.println();
+                      printWriter.flush();
                     }
                 }
 
