@@ -79,9 +79,7 @@ public class Menu implements Runnable {
                             retry = errorRetryInput("Password and email do not match");
                         }
                         // retry is 0 for yes, is 1 for no
-                        if (retry == 0) {
-                            return;
-                        }
+                        
                         if (retry == 1) {
                             break;
                         }
@@ -112,9 +110,7 @@ public class Menu implements Runnable {
                     } else {
                         int retry = errorRetryInput("This email is already tied to an account. " +
                                 "Please use a different email.");
-                        if (retry == 0) {
-                            return;
-                        }
+                        
                         if (retry == 1) {
                             break;
                         }
